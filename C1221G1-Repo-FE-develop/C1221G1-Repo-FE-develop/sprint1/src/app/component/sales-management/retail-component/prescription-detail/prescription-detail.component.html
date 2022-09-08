@@ -1,0 +1,180 @@
+<div class="mb-3 pt-1">
+  <div class="container shadow pt-3">
+    <div class="d-flex justify-content-center "><h3>Đơn Thuốc Chi Tiết</h3></div>
+    <hr>
+    <div *ngIf="!prescriptionDetail" class="p-3">
+      <h4 style="color: #a15252" class="text-center">Không tìm thấy đơn thuốc</h4>
+    </div>
+    <div *ngIf="prescriptionDetail">
+      <div class="row">
+        <div class="col-2"><label><p>Tên đơn thuốc:</p></label></div>
+        <div class="col-10"><input class="form-control" type="text"
+                                   value="{{prescriptionDetail.prescriptionName}}" readonly></div>
+      </div>
+      <div class="row">
+        <div class="col-2"><label><p>Triệu chứng:</p></label></div>
+        <div class="col-2"><input class="form-control" type="text"
+                                  value="{{prescriptionDetail.symptom}}" readonly></div>
+      </div>
+      <div class="row">
+        <div class="col-2"><label>Đối tượng:</label></div>
+        <div class="col-2"><input class="form-control" type="text"
+                                  value="{{prescriptionDetail.targetUser}}" readonly></div>
+        <div class="col-3"></div>
+        <div class="col-2 text-right"><label><p>Số ngày uống:</p></label></div>
+        <div class="col-3"><input class="form-control text-center" type="text"
+                                  value="{{prescriptionDetail.numberOfDays}}" readonly></div>
+      </div>
+      <div>
+        <fieldset class="border p-2 shadow">
+          <legend class="w-auto"> Chỉ định </legend>
+          <table class="table table-hover">
+            <thead>
+            <tr class="table-success">
+              <th class="col-1 text-center">STT</th>
+              <th class="col-2 text-center">Tên thuốc</th>
+              <th class="col-1 text-center">Lần/ngày</th>
+              <th class="col-1 text-center">Viên/lần</th>
+              <th class="col-1 text-center">Tổng viên</th>
+              <th class="col-2 text-center">Giá</th>
+              <th class="col-2 text-center">Thành tiền</th>
+            </tr>
+            </thead>
+            <tbody *ngIf="listPrescriptionMedicine">
+            <tr *ngFor="let item of listPrescriptionMedicine; index as i;  let k = index"
+                [class.selectedRow]="rowIsSelected(item.medicineId)" (click)="onRowClick(item.medicineId)"
+                style="cursor: pointer;">
+              <td class="col-1 text-center">{{i + 1}}</td>
+              <td class="col-2 text-center">{{item.medicineName}}</td>
+              <td class="col-1 text-center">{{item.times}}</td>
+              <td class="col-1 text-center">{{item.numberPerTime}}</td>
+              <td class="col-1 text-center">{{item.totalQuantity}}</td>
+              <td class="col-2 text-center">
+                {{item.retailPrice | number }} VND
+              </td>
+              <td class="col-2 text-center">
+                {{item.money | number }} VND
+              </td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="listPrescriptionMedicine.length == 0">
+            <tr>
+              <td class="text-center" colspan="7">Đơn chưa có thuốc</td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-end mr-3">
+            <label for="tongtien" class="p-2 col-form-label"><strong>TỔNG TIỀN:</strong></label>
+            <span class="pt-2" id="tongtien">{{totalMoney|number}} VND</span>
+          </div>
+        </fieldset>
+        <div class="d-flex justify-content-end py-3">
+          <div class="px-1">
+            <button class="btn btn-success " (click)="createRetailInvoice()">
+              <i class="fa-solid fa-circle-plus"></i>
+              Thanh toán
+            </button>
+          </div>
+          <div class="px-1">
+            <button class="btn btn-danger " data-target="#deleteModal"
+                    data-toggle="modal">
+              <i class="fa-solid fa-circle-xmark"></i>
+              Xoá thuốc
+            </button>
+          </div>
+          <div class="px-1">
+            <button class="btn btn-info " (click)="print('yes')">
+              <i class="fa-solid fa-print"></i>
+              In phiếu
+            </button>
+          </div>
+          <div class="pl-1">
+            <button class="btn btn-secondary "
+                    [routerLink]="['/sales-management/available-prescription']">
+              <i class="fa fa-undo" aria-hidden="true"></i>
+              Trở về
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--modal delete-->
+<!--<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">-->
+<!--  <div class="modal-dialog">-->
+<!--    <div class="modal-content">-->
+<!--      <div class="modal-header">-->
+<!--        <div *ngIf="!(idDelete == null || idDelete == undefined || idDelete == '' )" >-->
+<!--          <h3>Xác nhận xóa</h3>-->
+<!--        </div>-->
+<!--        <div *ngIf="(idDelete == null || idDelete == undefined || idDelete == '' )">-->
+<!--          <h3>Lỗi chọn thuốc</h3>-->
+<!--        </div>-->
+<!--        <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--          <span aria-hidden="true">&times;</span>-->
+<!--        </button>-->
+<!--      </div>-->
+<!--      <div class="modal-body" *ngIf="!(idDelete == null || idDelete == undefined || idDelete == '' )">-->
+<!--        <p>Bạn có muốn xóa thuốc-->
+<!--          <span class="text-danger font-weight-bold" id="nameDelete">{{nameDelete}}</span>-->
+<!--        </p>-->
+<!--      </div>-->
+<!--      <div class="modal-body" *ngIf="idDelete == null || idDelete == undefined || idDelete == ''">-->
+<!--        Bạn chưa chọn thuốc!-->
+<!--      </div>-->
+<!--      <div class="modal-footer" *ngIf="!(idDelete == null || idDelete == undefined || idDelete == '' )">-->
+<!--        <div class="mx-auto row">-->
+<!--          <input type="hidden" name="id" id="idDelete">-->
+<!--          <button #closeModal type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Hủy</button>-->
+<!--          <button type="submit" class="btn btn-danger mx-1" (click)="deleteMedicine(closeModal)">Xóa</button>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</div>-->
+<!--modal delete-->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div *ngIf="(selectedRowIds.size > 0)">
+          <h3>Xác nhận xóa</h3>
+        </div>
+        <div *ngIf="(selectedRowIds.size == 0)">
+          <h3>Lỗi chọn thuốc</h3>
+        </div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="(selectedRowIds.size > 0)">
+
+        <div *ngIf="listDeletedName.size > 1">
+          <p>Bạn có muốn xóa các loại thuốc: </p>
+          <div  *ngFor="let name of listDeletedName">
+            <p style="color:#e33a3a;"><strong>{{name}}</strong></p>
+          </div>
+        </div>
+        <div *ngIf="listDeletedName.size == 1">
+          <p>Bạn có muốn xóa thuốc: </p>
+          <div  *ngFor="let name of listDeletedName">
+            <p style="color:#e33a3a;"><strong>{{name}}</strong></p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body" *ngIf="(selectedRowIds.size == 0)">
+        Bạn chưa chọn thuốc!
+      </div>
+      <div class="modal-footer" *ngIf="(selectedRowIds.size > 0)">
+        <div class="mx-auto row">
+          <input type="hidden" name="id" id="idDelete">
+          <button #closeModal type="button" class="btn btn-secondary mx-1" data-dismiss="modal">Hủy</button>
+          <button type="submit" class="btn btn-danger mx-1" (click)="deleteLotsOfMedicine(closeModal)">Xóa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

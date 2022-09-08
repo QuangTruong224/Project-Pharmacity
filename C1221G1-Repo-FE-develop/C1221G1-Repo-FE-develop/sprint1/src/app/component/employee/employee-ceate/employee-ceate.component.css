@@ -1,0 +1,32 @@
+<!--
+/*
+  Created by TamNA
+  Time: 08:50:00 03/07/2022
+  Function:  Css give employee-create.html
+*/
+input[type=text]:focus {
+  background-color: #e1ebf4;
+
+}
+
+
+input[type=date]:focus {
+  background-color: #e1ebf4;
+
+}
+
+
+select:focus {
+  background-color: #e1ebf4;
+
+}
+
+#position:focus {
+  background-color: #e1ebf4;
+}
+
+#message-text:focus {
+  background-color: #e1ebf4;
+}
+
+

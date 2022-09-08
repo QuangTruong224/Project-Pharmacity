@@ -1,0 +1,245 @@
+<div class="shadow-lg bg-white mx-2 my-2">
+  <div class="container-fluid">
+    <h2 class="my-2 p-3 text-center">Danh Sách Thông Tin Thuốc</h2>
+    <div class="search">
+      <fieldset class="border p-2">
+        <legend class="w-auto">Bộ lọc</legend>
+        <div style="width: 95%; margin-left: auto; margin-right: auto">
+          <div class="d-flex justify-content-between">
+
+            <div style="margin-top: 7px">Lọc theo</div>
+            <div style="width: 20%">
+              <select class="custom-select" #columName (change)="changeCondition(columName.value)">
+                <option value="">-- Chọn lựa --</option>
+                <option value="medicineId">Mã thuốc</option>
+                <option value="medicineTypeName">Nhóm thuốc</option>
+                <option value="medicineName">Tên thuốc</option>
+                <option value="medicineActiveIngredients">Hoạt chất</option>
+                <option value="medicineImportPrice">Giá nhập</option>
+                <option value="wholesalePrice">Giá bán sỉ</option>
+                <option value="retailPrice">Giá bán lẻ</option>
+              </select>
+            </div>
+
+            <div style="width: 20%">
+              <select class="custom-select" #condition [disabled]="!isCondition">
+                <option value="">-- Điều kiện --</option>
+                <option value="=">Bằng</option>
+                <option value=">">Lớn hơn</option>
+                <option value="<">Nhỏ hơn</option>
+                <option value=">=">Lớn hơn bằng</option>
+                <option value="<=">Nhỏ hơn bằng</option>
+                <option value="!=">Khác</option>
+              </select>
+            </div>
+
+            <div style="width: 35%">
+              <input class="form-control" #keyWord type="search" placeholder="Tìm kiếm"
+                     aria-label="Search">
+            </div>
+            <div>
+              <button class="btn btn-primary" (click)="searchMedicine()"><i class="fa fa-search" aria-hidden="true"></i>
+                Lọc kết quả
+              </button>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div>
+      <div class="table my-2">
+        <fieldset class="border p-2">
+          <legend class="w-auto">Danh sách thuốc</legend>
+          <div class="table-responsive-xl table-responsive-md table-responsive-sm">
+            <table class="table">
+              <thead class="table-success">
+              <tr>
+                <th>Mã thuốc</th>
+                <th>Nhóm thuốc</th>
+                <th>Tên thuốc</th>
+                <th>Hoạt chất</th>
+                <th>Đơn vị tính</th>
+                <th>Đơn vị quy đổi</th>
+                <th>Giá nhập (VND)</th>
+                <th>Giá bán sỉ (VND)</th>
+                <th>Giá bán lẻ (VND)</th>
+                <th>Chi tiết</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let medicine of medicines|paginate : { itemsPerPage: 5, currentPage: p },  index as index"
+                  (click)="getValueMedicine( index, medicine.medicineId, medicine)"
+                  [ngStyle]="{'background-color': chosenIndex === index && isChosen && medicine.medicineId==chooseId ? 'darkgrey' : ''}">
+                <td>{{medicine.medicineId}}</td>
+                <td>{{medicine.medicineTypeName}}</td>
+                <td><p class="name">{{medicine.medicineName}}</p></td>
+                <td><p class="ingredients">{{medicine.medicineActiveIngredients}}</p></td>
+                <td>{{medicine.medicineUnitName}}</td>
+                <td>{{medicine.medicineConversionUnitName}}</td>
+                <td>{{medicine.medicineImportPrice | number}}</td>
+                <td>{{medicine.wholesalePrice | number}}</td>
+                <td>{{medicine.retailPrice | number}}</td>
+                <td>
+                  <button class="btn btn-info" type="button" (click)="getInfoMedicine(medicine.medicineId)"
+                          data-toggle="modal" data-target="#infoModal">
+                    <i aria-hidden="true" class="fa fa-address-card"></i>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <div *ngIf="medicines && medicines?.length === 0">
+              <h3 class="text-center my-5">Không tìm thấy bất kỳ thông tin nào !</h3>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <!--function paging-->
+    <div style="justify-content: space-around;display: flex;" [hidden]="medicines.length===0">
+      <pagination-controls (pageChange)="p = $event" class=" page-item"
+                           previousLabel="Trước"
+                           nextLabel="Sau">
+      </pagination-controls>
+    </div>
+
+    <div class="d-flex justify-content-end my-3 p-3">
+      <button class="btn btn-success mx-2" routerLink="/medicine/create"><i class="fa-solid fa-circle-plus"></i>
+        Thêm
+      </button>
+      <button class="btn btn-warning mx-2"
+              (click)="confirmSelect()"><i
+        class="fa-solid fa-pen-fancy"></i> Sửa
+      </button>
+      <button type="button" (click)="deleteModal(getMedicine.medicineName,getMedicine.medicineId)"
+              class="btn btn-danger mx-2" data-toggle="modal" data-target="#deleteModal">
+        <i class="fa-solid fa-trash-can"></i> Xoá
+      </button>
+      <a class="btn btn-secondary mx-2" routerLink="/home-page"><i class="fa-solid fa-reply"></i> Trở về</a>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">Xác nhận xóa !</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" [hidden]="!isChosen">
+        <p>Bạn có chắc chắn muốn xóa loại thuốc này !</p>
+        <p class="text-danger">{{idToDelete}} : {{nameToDelete}}</p>
+        <p class="text-danger">Lưu ý hành động không thể hoàn tác !</p>
+      </div>
+      <div class="modal-body" [hidden]="isChosen">
+        <h3 class="text-danger">Bạn chưa chọn loại thuốc nào !</h3>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+        <button type="button" (click)="deleteMedicineById()" class="btn btn-primary" data-dismiss="modal">Xác nhận
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="infoModalLabel">Thông tin chi tiết của thuốc !</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" *ngIf="infoMedicine">
+        <div class="row">
+          <div class="col-6 my-2">
+            <div class="col-13 my-2">
+              <b> Mã thuốc : </b>{{infoMedicine.medicineId}}
+            </div>
+            <div class="col-13 my-2">
+              <b> Tên thuốc : </b>{{infoMedicine.medicineName}}
+            </div>
+          </div>
+          <div class="col-6 my-2">
+            <div class="col-13 my-2">
+              <b> Hoạt chất: </b>{{infoMedicine.medicineActiveIngredients}}
+            </div>
+            <div class="col-13 my-2">
+
+              <b>  Nhóm thuốc : </b>{{infoMedicine.medicineTypeName}}
+            </div>
+          </div>
+          <div class="col-12 my-2">
+            <hr>
+          </div>
+          <div class="col-4 my-2">
+
+            <b> Đơn vị : </b>{{infoMedicine.medicineUnitName}}
+          </div>
+          <div class="col-4 my-2">
+
+            <b>  Đơn vị quy đổi : </b>{{infoMedicine.medicineConversionUnitName}}
+          </div>
+          <div class="col-4 my-2">
+
+            <b>  Tỉ lệ quy đổi : </b>{{infoMedicine.medicineConversionRate}}
+          </div>
+          <div class="col-12 my-2">
+            <hr>
+          </div>
+          <div class="col-6 my-2">
+            <b> % Lợi nhuận xuất chẵn : </b>{{infoMedicine.medicineWholesaleProfit}}
+          </div>
+          <div class="col-6 my-2">
+
+            <b>% Lợi nhuận xuất lẻ : </b>{{infoMedicine.medicineRetailSaleProfit}}
+          </div>
+          <div class="col-6 my-2">
+
+            <b>% Tỉ lệ chiết khấu : </b>{{infoMedicine.medicineDiscount}}
+          </div>
+          <div class="col-6 my-2">
+
+            <b>% VAT: </b>{{infoMedicine.medicineTax}}
+          </div>
+          <div class="col-12 my-2">
+            <hr>
+          </div>
+          <div class="col-6 my-2">
+
+            <b>Giá nhập : </b>{{infoMedicine.medicineImportPrice | number}} <b>VND</b>
+          </div>
+          <div class="col-6 my-2">
+
+            <b>Độ tuổi : </b>{{infoMedicine.medicineAgeApproved}}
+
+          </div>
+          <div class="col-6 my-2">
+
+            <b>Nhà sản xuất : </b>{{infoMedicine.medicineManufacture}}
+          </div>
+          <div class="col-6 my-2">
+            <b>Xuất xứ : </b>{{infoMedicine.medicineOriginName}}
+          </div>
+          <div class="col-6 my-2">
+            <b>Cách sử dụng : </b>{{infoMedicine.medicineInstruction}}
+          </div>
+          <div class="col-6 my-2">
+              <b>Công dụng : </b>{{infoMedicine.medicineUsage}}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

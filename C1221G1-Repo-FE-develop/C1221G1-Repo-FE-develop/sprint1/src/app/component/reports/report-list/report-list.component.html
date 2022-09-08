@@ -1,0 +1,158 @@
+<div class="container p-2">
+  <h2 class="text-center">Báo Cáo</h2>
+  <form [formGroup]="reportForm" (ngSubmit)="onSubmit()">
+    <div class="container">
+
+      <fieldset class="border p-2 shadow-lg  bg-white rounded-lg">
+        <legend class="w-auto" style="font-weight: bold">Thời gian</legend>
+        <div class="row">
+          <div class="col-lg-1"></div>
+          <div class="row col-lg-10 col-sm-12">
+            <div style="display: flex;align-items: center;" class="control-group col-6">
+              <label class="col-lg-4 col-sm-12" style="font-weight: bold">Từ ngày :</label>
+              <input class="form-control" type="date" #startDay name="startDay" formControlName="startTime"/>
+
+            </div>
+            <div style="display: flex;align-items: center;" class="control-group col-6">
+              <label class="col-lg-4 col-sm-12" style="font-weight: bold">Đến ngày :</label>
+              <input class="form-control" type="date" #endDay name="endDay" formControlName="endTime"/>
+
+            </div>
+            <p class="text-center" style="color: red" *ngIf="(reportForm.controls.startTime.hasError('required')||
+          reportForm.controls.endTime.hasError('required'))
+          &&(reportForm.controls.startTime.touched||reportForm.controls.endTime.touched)">Cần chọn khoảng thời gian báo cáo</p>
+          </div>
+
+        </div>
+      </fieldset>
+    </div>
+    <div style="height: 15px"></div>
+    <div class="container">
+
+      <fieldset class="border p-2 shadow-lg  bg-white rounded-lg">
+        <legend class="w-auto" style="font-weight: bold">Hệ thống báo cáo</legend>
+
+        <div class="row" style="margin-bottom: 16px">
+          <div class="col-lg-4 col-sm-12" style="padding-left: 25px">
+            <label class="control-label input-label" style="font-weight: bold">HÀNG HÓA, KHÁCH HÀNG</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="option8" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo chi tiết nhập kho
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="option7" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo chi tiết xuất hủy
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="option6" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo chi tiết xuất hoàn trả
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="option5" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo chi tiết bán sỉ
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="option4" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo chi tiết bán lẻ
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="option2" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo chi tiết bán theo đơn
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="option3" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo thuốc đang cung cấp
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="option1" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo danh sách nhà cung cấp
+              </label>
+            </div>
+          </div>
+
+          <div class="col-lg-4  col-sm-12">
+            <label class="control-label input-label" style="font-weight: bold">THU CHI, CÔNG NỢ</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="1" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo doanh thu
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="2" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo lợi nhuận
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="3" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo công nợ
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="4" formControlName="type">
+              <label class="form-check-label">
+                Nhật ký bán hàng
+              </label>
+            </div>
+          </div>
+
+          <div class="col-lg-4  col-sm-12">
+            <label class="control-label input-label" style="font-weight: bold">DANH SÁCH, PHÂN TÍCH</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="5" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo thuốc cần nhập thêm
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="6" formControlName="type">
+              <label class="form-check-label">
+                Báo cáo thuốc sắp hết hạn
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="type" value="7" formControlName="type">
+              <label class="form-check-label">
+                100 thuốc bán nhiều nhất
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div style="height: 15px"></div>
+    <div class="container col-12">
+      <div class="row">
+        <div class="col-8">
+          <a routerLink="/reports/static">
+            <button class="btn btn-success"><i class="fa fa-line-chart" aria-hidden="true"></i>
+              Biểu đồ thống kê</button>
+          </a>
+        </div>
+        <div class="col-4 text-right" id="btn">
+          <button  type="submit" class="btn btn-success mx-2"><i class="fa-solid fa-circle-plus" ></i> Xuất Excel</button>
+          <button type="button" class="btn btn-secondary mx-2" [routerLink]="['/sales-management/invoices']">
+            <i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
+        </div>
+
+      </div>
+    </div>
+  </form>
+</div>

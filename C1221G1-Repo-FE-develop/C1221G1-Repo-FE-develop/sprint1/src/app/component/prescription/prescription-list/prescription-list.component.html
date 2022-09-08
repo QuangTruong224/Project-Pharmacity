@@ -1,0 +1,184 @@
+<div class="container-fluid p-2">
+  <h3 style="text-align: center">Danh Sách Đơn Thuốc</h3>
+</div>
+<div id="field" class="container-fluid">
+  <fieldset class="border p-2  shadow">
+    <legend class="w-auto">Bộ lọc</legend>
+    <form [formGroup]="searchForm" (ngSubmit)="search()">
+      <div class="row">
+        <div class="col-lg-1 col-md-1"><p>Lọc theo</p></div>
+        <div class="col-lg-4 col-md-4">
+          <select name="" id="" class="form-control" formControlName="typeSearch">
+            <option value="">------ Chọn bộ lọc ------</option>
+            <option value="id">Mã đơn thuốc</option>
+            <option value="names">Tên đơn</option>
+            <option value="target">Đối tượng</option>
+            <option value="symptom">Triệu chứng</option>
+          </select>
+        </div>
+        <div class="col-lg-4 col-md-4">
+          <input class="form-control"
+                 placeholder="Nhập từ khoá cần tìm kiếm"
+                 type="text" formControlName="inputSearch">
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <button class="btn btn-primary" (click)="search()"><i class="fa fa-search" aria-hidden="true"></i> Lọc kết quả
+          </button>
+        </div>
+        <!--        <div class="col-lg-3 col-md-3">-->
+        <!--          <p class="float-right">Sắp xếp</p>-->
+        <!--        </div>-->
+        <!--        <div class="col-lg-2 col-md-2">-->
+        <!--          <select class="form-control">-->
+        <!--            <option value="Mã toa thuốc">Mã đơn thuốc</option>-->
+        <!--            <option value="Tên toa">Tên đơn</option>-->
+        <!--            <option value="Đối tượng">Đối tượng</option>-->
+        <!--            <option value="Triệu chứng">Triệu chứng</option>-->
+        <!--          </select>-->
+        <!--        </div>-->
+      </div>
+    </form>
+
+  </fieldset>
+</div>
+
+<div class="container-fluid">
+  <fieldset class="border p-2 shadow">
+    <table class="table table-striped">
+      <thead class="table-success">
+      <tr>
+        <th>STT</th>
+        <th>Mã đơn thuốc</th>
+        <th>Tên đơn thuốc</th>
+        <th>Đối tượng</th>
+        <th>Triệu chứng</th>
+        <th>Ghi chú</th>
+        <!--        <th>Sửa</th>-->
+        <!--        <th>Xoá</th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngIf="!prescriptions">
+        <td colspan="8" style="text-align: center">Không tìm thấy dữ liệu phù hợp</td>
+      </tr>
+      <tr *ngFor="let prescription of prescriptions; index as i"
+          (click)="choosePrescription(i, prescription.prescriptionId, prescription)"
+          [ngStyle]="{'background-color': chooseIndex === i && isChoose && prescription.prescriptionId==chooseId ? 'darkgrey' : ''}">
+        <td>{{i + 1}}</td>
+        <td>{{prescription.prescriptionId}}</td>
+        <td>{{prescription.prescriptionName}}</td>
+        <td>{{prescription.prescriptionTargetUser}}</td>
+        <td>{{prescription.prescriptionSymptom}}</td>
+        <td>{{prescription.prescriptionNote}}</td>
+        <!--        <td>-->
+        <!--          <button class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i></button>-->
+        <!--        </td>-->
+        <!--        <td>-->
+        <!--          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"-->
+        <!--                  (click)="getPrescription(prescription.prescriptionId, prescription.prescriptionName)">-->
+        <!--            <i class="fa fa-trash" aria-hidden="true"></i></button>-->
+        <!--        </td>-->
+      </tr>
+
+      </tbody>
+    </table>
+
+    <div *ngIf="prescriptions">
+      <!--      <div class="9"> <p></p></div>-->
+      <!--      <div class="col-10 d-flex justify-content-center">-->
+      <!--                <p class="page-link"></p>-->
+      <!--      </div>-->
+
+      <!--        Pagination-->
+      <div class="">
+        <nav class="d-flex justify-content-center wow fadeIn">
+          <ul class="pagination">
+            <li class="page-item">
+              <button style="width: 80px" class="page-link" (click)="previous()">Trước</button>
+            </li>
+            <li class="page-item" aria-current="page">
+              <button class="page-link">{{(page + 1) + '/' + totalPages}}</button>
+            </li>
+            <li class="page-item">
+              <button style="width: 80px" class="page-link" (click)="next()"> Sau</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+
+  </fieldset>
+  <!--  <div aria-label="Page navigation example">-->
+  <!--    <ul class="pagination justify-content-end">-->
+  <!--      <li class="page-item disabled">-->
+  <!--        <a class="page-link" href="#" tabindex="-1">Previous</a>-->
+  <!--      </li>-->
+  <!--      <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+  <!--      <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+  <!--      <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+  <!--      <li class="page-item">-->
+  <!--        <a class="page-link" href="#">Next</a>-->
+  <!--      </li>-->
+  <!--    </ul>-->
+  <!--  </div>-->
+  <div>
+    <div id="bt" class="row">
+      <div class="col-lg-6 col-md-6"></div>
+      <div class="col-lg-1 col-md-1 m-2">
+        <button [routerLink]="['/prescription/create']" style="margin: 2px" class="btn btn-success shadow"><i
+          class="fa-solid fa-circle-plus"></i> Thêm
+        </button>
+      </div>
+      <div class="col-lg-1 col-md-1 m-2">
+        <button [routerLink]="['/prescription/create-medicine-prescription']" style="margin: 2px"
+                class="btn btn-success shadow"><i
+          class="fa-solid fa-circle-plus"></i>Chỉ định
+        </button>
+      </div>
+      <div class="col-lg-1 col-md-1 m-2">
+        <button style="margin: 2px" class="btn btn-warning shadow" [routerLink]="['/prescription/edit/',idDel]">
+          <i class="fa fa-pencil" aria-hidden="true"></i> Sửa
+        </button>
+      </div>
+      <div class="col-lg-1 col-md-1 m-2">
+        <button style="margin: 2px" type="button" class="btn btn-danger"
+                data-toggle="modal" data-target="#exampleModal"><i class="fa-solid fa-circle-xmark"></i> Xoá
+        </button>
+      </div>
+      <div class="col-lg-1 col-md-1 m-2">
+        <button [routerLink]="['/home-page']" style="margin: 2px" class="btn btn-secondary shadow"><i
+          class="fa fa-undo" aria-hidden="true"></i> Trở về
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Xoá Đơn Thuốc</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Chắc chắn xoá đơn thuốc {{idDel}}?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+        <button type="button" class="btn btn-primary" (click)="delete(idDel)" data-dismiss="modal">Xoá</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').trigger('focus')
+  })
+</script>

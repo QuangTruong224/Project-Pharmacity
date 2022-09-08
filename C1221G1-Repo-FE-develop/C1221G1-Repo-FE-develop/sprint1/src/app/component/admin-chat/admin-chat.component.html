@@ -1,0 +1,39 @@
+
+<div class="wrapper">
+  <div class="chat-app">
+    <div class="container bg-white my-3" style="max-width: 1140px; min-height: 100vh">
+      <div class="row chat-app-title-container">
+        <div class="col-md-12 my-3">
+          <h2 class="chat-app-title text-center">Chăm Sóc Khách Hàng</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="chat-app-left-side" #chatRoomList style="padding-left: 24px;">
+          <ul>
+            <li (click)="isSeenToggle(room.uuid)" [routerLinkActive]="'active'" *ngFor="let room of rooms" [routerLink]="['/admin-chat/room', room.uuid]">
+              <div class="circle-name" [ngStyle]="{'background-color':getAvatarColor(room.name)}">{{room.name[0].toUpperCase().normalize("NFD")}}</div>
+              <div class="pl-2 d-flex w-100 flex-column align-items-start">
+                <a>
+                  {{room.name}} <span *ngIf="!room.isSeen" class="badge badge-danger">!</span>
+                </a>
+                <div class="phone-number">
+                  {{room.phone}}
+                </div>
+                <div class="last-seen">
+                  <div class="last-seen">
+                    {{calculateLastMessagePost(room.lastMessagePost)}}
+                  </div>
+                </div>
+              </div>
+
+
+            </li>
+          </ul>
+        </div>
+        <div class="chat-app-right-side">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

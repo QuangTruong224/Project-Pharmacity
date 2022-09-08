@@ -1,0 +1,277 @@
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+
+#sidebar {
+  top: 10vh;
+  height: calc(100vh - 20vh);
+  position: fixed;
+  left: 0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
+  z-index: 99;
+}
+
+.sticky-footer {
+  text-align: center;
+  width: 100%;
+  /*top: 90%;*/
+  background-color: #00b59d;
+}
+
+.wrapper-content {
+  min-height: calc(100vh - 20vh);
+}
+
+.right-content {
+  margin-left: 20%;
+}
+
+@media (max-width: 768px) {
+  #sidebar.active {
+    margin-left: 0;
+  }
+
+  #content {
+    width: 100%;
+    margin: 0;
+  }
+
+  #content.active {
+    margin-left: 17rem;
+    width: calc(100% - 17rem);
+  }
+
+  .wrapper-content {
+    min-height: calc(100vh - 20vh);
+  }
+}
+
+.nav-item {
+  line-height: 2rem;
+}
+
+.seperate {
+  border-top: 1px solid white;
+}
+
+
+.text-uppercase {
+  letter-spacing: 0.1em;
+}
+
+.text-gray {
+  color: #aaa;
+}
+
+.bg-pharmacode {
+  background-color: #00bfa5 !important;
+}
+
+
+/*
+*
+* ==========================================
+* HEADER
+* ==========================================
+*
+*/
+
+
+
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+
+.content {
+  position: relative;
+  top: 10%;
+}
+
+#sidebar {
+  top: 10.5%;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.4s;
+}
+
+.right-content {
+  margin-left: 20%;
+}
+
+
+.nav-item {
+  line-height: 2rem;
+}
+
+.seperate {
+  border-top: 1px solid white;
+}
+
+
+.text-uppercase {
+  letter-spacing: 0.1em;
+}
+
+.text-gray {
+  color: #aaa;
+}
+
+.bg-pharmacode {
+  background-color: #00bfa5 !important;
+}
+
+
+/*
+*
+* ==========================================
+* HEADER
+* ==========================================
+*
+*/
+
+li.nav-item {
+}
+
+.nav-link {
+  color: white !important;
+  font-weight: bolder;
+}
+
+
+.navbar {
+  margin-bottom: 2rem;
+  height: 10%;
+  position: fixed;
+  top: 0;
+  padding-left: 8%;
+  width: 100%;
+  z-index: 2;
+}
+
+.dropdown .dropdown-menu {
+  border-radius: 0;
+}
+
+
+/* Medium devices (tablets, 768px and up)
+The navbar toggle appears at this breakpoint */
+@media (min-width: 768px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    border-radius: 0;
+    background-color: white;
+  }
+
+  .dropdown-item:hover {
+    background-color: #34e3c9;
+  }
+}
+
+
+@media (max-width: 1200px) {
+  #sidebar {
+    display: none;
+  }
+
+  #sidebar {
+    display: none;
+  }
+
+  .navbar-collapse {
+    background-color: #00bfa5 !important;
+    padding: 2rem;
+  }
+
+  .nav-link {
+    color: white !important;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    border-radius: 0;
+  }
+
+  .right-content {
+    margin-left: 0px;
+  }
+
+}
+
+
+.nav-link {
+  color: white !important;
+  font-weight: bolder;
+}
+
+
+.navbar {
+  /*margin-bottom:2rem;*/
+  /*height: 10%;*/
+  position: fixed;
+  top: 0;
+  padding-left: 3%;
+  /*width: 100%;*/
+  z-index: 2;
+}
+
+.dropdown .dropdown-menu {
+  border-radius: 0;
+}
+
+/* Medium devices (tablets, 768px and up)
+The navbar toggle appears at this breakpoint */
+@media (min-width: 768px) {
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    border-radius: 0;
+  }
+
+  .dropdown-item:hover {
+    background-color: #34e3c9;
+  }
+}
+
+
+@media (max-width: 767px) {
+  #sidebar {
+    display: none;
+  }
+
+  .dropdown-item:hover {
+    background-color: #34e3c9;
+  }
+
+  .navbar-collapse {
+    background-color: #00bfa5 !important;
+    padding: 2rem;
+    z-index: 9999999999;
+  }
+
+  .nav-link {
+    color: white !important;
+  }
+
+  .dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0;
+    border-radius: 0;
+  }
+}
+
+
+
+

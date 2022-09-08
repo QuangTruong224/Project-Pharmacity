@@ -1,0 +1,186 @@
+<div class="wrapper mb-2">
+  <div class="container-fluid mx-auto">
+    <div class="flex">
+      <div *ngIf="cartDetails == null || cartDetails.length <1" class="row">
+        <div class="col-8 mx-auto mt-2">
+          <div class="shadow-lg bg-white p-3 rounded-lg">
+            <div class="d-flex justify-content-between border-bottom pb-8">
+              <h4 class="font-weight-bold">Giỏ hàng</h4>
+            </div>
+            <br>
+            <br>
+            <div class="col-4 mx-auto m-3 text-center">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/102/102661.png"
+                width="30%"
+                alt="empty cart">
+            </div>
+            <h5 class="text-center">Giỏ hàng của bạn đang trống</h5>
+            <div class="form-group row mt-4">
+              <div class="col-sm-3 mx-auto pb-1">
+                <button [routerLink]="['/home-page']" style="min-height: 45px"
+                        class="btn btn-outline-success btn-block">
+                  Tiếp tục mua hàng
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="cartDetails != null && cartDetails.length >= 1" class="row">
+        <div class="col-xl-8 col-lg-12 my-2">
+          <div class="shadow-lg bg-white p-3 rounded-lg">
+            <div class="d-flex justify-content-between border-bottom pb-8">
+              <h4 class="font-weight-bold">Giỏ hàng</h4>
+              <h5 class="font-weight-bold">{{cartDetails.length}} Sản phẩm</h5>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-borderless table-hover">
+                <tr class="border-bottom">
+                  <td class="col-6">SẢN PHẨM</td>
+                  <td class="col-2">GIÁ</td>
+                  <td class="col-2">SỐ LƯỢNG</td>
+                  <td class="col-2">TỔNG TIỀN</td>
+                </tr>
+                <tr *ngFor="let cartDetail of cartDetails" class="border-bottom">
+                  <td class="col-6">
+                    <div class="d-flex align-items-center">
+                      <button class="btn" data-target="#deleteModal"
+                              data-toggle="modal"
+                              (click)="getMedicineDelete(cartDetail.medicine)">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke-width="1.5"
+                             stroke="#8E9AAB" style="margin-right: 4px;">
+                          <path d="M17.9964 6L6.00391 17.9925" stroke="inherit"
+                                stroke-width="inherit"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                          <path d="M18.0125 18.0125L6 6" stroke="inherit" stroke-width="inherit"
+                                stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                      </button>
+                      <div style="width: 40px; height: 50px">
+                        <img class="h-100"
+                             [src]=cartDetail.medicine.medicineImage
+                             alt="">
+                      </div>
+                      <div class="pl-4 text-success">
+                        {{cartDetail.medicine.medicineName}}
+                      </div>
+                    </div>
+                  </td>
+                  <td class="col-2 align-middle">
+                    {{cartDetail.medicine.medicinePrice|number}} VND
+                  </td>
+                  <td class="col-2 align-middle">
+                    <div class="d-flex align-items-center justify-content-between product-quantity-group">
+                      <button class="btn btn-light" [disabled]="cartDetail.quantity<2"
+                              (click)="reduceItem(cartDetail.medicine)">-
+                      </button>
+                      <input readonly [value]=cartDetail.quantity class="bg-success">
+                      <button class="btn btn-light" (click)="increaseItem(cartDetail.medicine)">+</button>
+                    </div>
+                  </td>
+                  <td class="col-2 align-middle font-weight-bold">
+                    {{cartDetail.medicine.medicinePrice * cartDetail.quantity|number}} VND
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <div class="form-group row">
+              <div class="col-sm-10 col-md-4 col-lg-3 pb-1">
+                <button [routerLink]="['/home-page']" style="min-height: 45px"
+                        class="btn btn-outline-success btn-block">
+                  Tiếp tục mua hàng
+                </button>
+              </div>
+              <div class="col-sm-10 col-md-4 col-lg-3 pb-1">
+                <button style="min-height: 45px" class="btn btn-warning btn-block" (click)="reload()">
+                  Cập nhật giỏ hàng
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-lg-12 my-2">
+          <div class="shadow-lg bg-white p-3 rounded-lg">
+            <div class="d-flex justify-content-between border-bottom pb-8">
+              <h4 class="font-weight-bold">Tổng tiền</h4>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-borderless ">
+                <tr>
+                  <td class="col-5">Tạm tính</td>
+                  <td class="col-7 text-right">{{total|number}} VND</td>
+                </tr>
+                <tr class="border-bottom font-weight-bold">
+                  <td class="col-5">Tổng tiền</td>
+                  <td class="col-7 text-right ">{{total|number}} VND</td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <button style="min-height: 45px" class="btn btn-success btn-block" (click)="confirmCart()">
+                      Tiến hành thanh toán
+                    </button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Xóa sản phẩm</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Bạn có chắc muốn xóa sản phẩm
+          <span class="text-danger font-weight-bold" id="nameDelete">{{medicineDelete.medicineName}}</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <div class="mx-auto row">
+          <button class="mx-2 btn btn-secondary" data-dismiss="modal">Quay lại</button>
+          <button class="mx-2 btn btn-danger"
+                  (click)="removeItem(medicineDelete)"
+                  data-dismiss="modal">Xóa
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<button id="openModalButton" [hidden]="true" data-toggle="modal" data-target="#errorModal">Open Modal</button>
+<div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tạm hết hàng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p *ngFor="let medicine of medicineErrorArray">
+          <span class="text-danger font-weight-bold">{{medicine}}</span>
+        </p>
+        <p>Vui lòng điều chỉnh lại danh sách!</p>
+      </div>
+      <div class="modal-footer">
+        <div class="mx-auto row">
+          <button class="mx-2 btn btn-secondary" data-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

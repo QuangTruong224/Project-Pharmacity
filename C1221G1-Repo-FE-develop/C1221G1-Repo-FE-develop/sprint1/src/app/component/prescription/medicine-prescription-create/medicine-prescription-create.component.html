@@ -1,0 +1,151 @@
+<div style="margin: 15px">
+  <!--    <div><p style="margin-top: 20px">Thông tin đơn thuốc</p></div>-->
+  <!--    <hr>-->
+
+  <div class="container shadow" style="width: 1000px">
+    <form [formGroup]="medicinePrescriptionForm" (ngSubmit)="submit()">
+      <div><h3 style="text-align: center">Thêm Mới Chỉ Định Đơn Thuốc</h3></div>
+
+      <div class="row">
+        <div class="col-lg-2 col-md-2"><label>Đơn thuốc<span> (*)</span></label></div>
+        <div class="col-lg-10 col-md-10">
+          <select class="form-control" formControlName="prescription" name="prescription" id="">
+            <option value="">-- Chọn đơn thuốc --</option>
+            <option *ngFor="let prescriptions of prescriptions"
+                    [ngValue]="prescriptions">{{prescriptions.prescriptionName}}</option>
+          </select>
+          <span *ngIf="medicinePrescriptionForm.get('prescription').errors?.required &&
+                medicinePrescriptionForm.get('prescription').touched">
+                  Đơn thuốc không được để trống!</span>
+        </div>
+      </div>
+      <div>
+        <fieldset class="border p-2 shadow">
+          <legend class="w-auto">Chỉ định<span> (*)</span></legend>
+          <div class="row">
+            <div class="col-lg-1 col-md-1"><p>1.</p></div>
+            <div class="col-lg-8 col-md-8">
+              <select class="form-control" formControlName="medicine" name="medicine">
+                <option value="">-- Chọn thuốc --</option>
+                <option *ngFor="let medicines of medicines" [ngValue]="medicines">{{medicines.medicineName}}</option>
+              </select>
+              <span *ngIf="medicinePrescriptionForm.get('medicine').errors?.required &&
+                medicinePrescriptionForm.get('medicine').touched">
+                  Thuốc không được để trống!</span>
+            </div>
+            <div class="col-lg-1 col-md-1">
+              <!--              <input class="form-control" type="text">-->
+            </div>
+            <!--            <div class="col-lg-1 col-md-1"><p>viên</p></div>-->
+            <!--            <div class="col-lg-1 col-md-1">-->
+            <!--              <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>-->
+            <!--            </div>-->
+          </div>
+          <div class="row" style="margin-right: 190px">
+            <div class="col-lg-1 col-md-1"></div>
+            <div class="col-lg-2 col-md-2"><p class="prescription">Ngày uống</p></div>
+            <div class="col-lg-1 col-md-1"><input formControlName="medicinePrescriptionTimes"
+                                                  name="medicinePrescriptionTimes"
+                                                  style="width: 60px" class="form-control" type="number">
+
+              </div>
+
+            <div class="col-lg-2 col-md-2"><p class="prescription">lần, mỗi lần</p></div>
+            <div class="col-lg-1 col-md-1"><input formControlName="medicinePrescriptionNumberPerTime"
+                                                  name="medicinePrescriptionNumberPerTime"
+                                                  style="width: 60px" class="form-control" type="number">
+              </div>
+
+            <div class="col-lg-1 col-md-1"><p class="prescription">viên</p></div>
+
+          </div>
+          <span *ngIf="medicinePrescriptionForm.get('medicinePrescriptionTimes').errors?.required &&
+          medicinePrescriptionForm.get('medicinePrescriptionTimes').touched">Ngày uống không được để trống!</span>
+          <span *ngIf="medicinePrescriptionForm.get('medicinePrescriptionTimes').errors?.min &&
+          medicinePrescriptionForm.get('medicinePrescriptionTimes').touched">Ngày uống không được nhỏ hơn 1!</span>
+          <span *ngIf="medicinePrescriptionForm.get('medicinePrescriptionTimes').errors?.max &&
+          medicinePrescriptionForm.get('medicinePrescriptionTimes').touched">Ngày uống không được lớn hơn 30!</span>
+
+          <span *ngIf="medicinePrescriptionForm.get('medicinePrescriptionNumberPerTime').errors?.required &&
+          medicinePrescriptionForm.get('medicinePrescriptionNumberPerTime').touched"> Số viên không được để trống!</span>
+          <span *ngIf="medicinePrescriptionForm.get('medicinePrescriptionNumberPerTime').errors?.min &&
+          medicinePrescriptionForm.get('medicinePrescriptionNumberPerTime').touched"> Số viên không được nhỏ hơn 1!</span>
+          <span *ngIf="medicinePrescriptionForm.get('medicinePrescriptionNumberPerTime').errors?.max &&
+          medicinePrescriptionForm.get('medicinePrescriptionNumberPerTime').touched"> Số viên không được lớn hơn 30!</span>
+          <!--          <div class="row">-->
+          <!--            <div class="col-lg-1 col-md-1"><p>2.</p></div>-->
+          <!--            <div class="col-lg-8 col-md-8">-->
+          <!--              <select class="form-control" name="">-->
+          <!--                <option value="">ALFIGOLD 500MG</option>-->
+          <!--                <option value="">BACIZIM PLUS</option>-->
+          <!--                <option value="">DELOPEDIL</option>-->
+          <!--                <option value="">PANADOL</option>-->
+          <!--              </select>-->
+          <!--            </div>-->
+          <!--            <div class="col-lg-1 col-md-1">-->
+          <!--              <input class="form-control" type="text">-->
+          <!--            </div>-->
+          <!--            <div class="col-lg-1 col-md-1"><p>viên</p></div>-->
+          <!--            <div class="col-lg-1 col-md-1">-->
+          <!--              <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <!--          <div class="row" style="margin-right: 190px">-->
+          <!--            <div class="col-lg-1 col-md-1"></div>-->
+          <!--            <div class="col-lg-2 col-md-2"><p class="prescription">Ngày uống</p></div>-->
+          <!--            <div class="col-lg-1 col-md-1"><input class="form-control" type="number"></div>-->
+          <!--            <div class="col-lg-2 col-md-2"><p class="prescription">lần, mỗi lần</p></div>-->
+          <!--            <div class="col-lg-1 col-md-1"><input class="form-control" type="number"></div>-->
+          <!--            <div class="col-lg-1 col-md-1"><p class="prescription">viên</p></div>-->
+          <!--          </div>-->
+          <!--          <div class="row">-->
+          <!--            <div class="col-lg-1 col-md-1"><p>3.</p></div>-->
+          <!--            <div class="col-lg-8 col-md-8">-->
+          <!--              <select class="form-control" name="">-->
+          <!--                <option value="">ALFIGOLD 500MG</option>-->
+          <!--                <option value="">BACIZIM PLUS</option>-->
+          <!--                <option value="">DELOPEDIL</option>-->
+          <!--                <option value="">PANADOL</option>-->
+          <!--              </select>-->
+          <!--            </div>-->
+          <!--            <div class="col-lg-1 col-md-1">-->
+          <!--              <input class="form-control" type="text">-->
+          <!--            </div>-->
+          <!--            <div class="col-lg-1 col-md-1"><p>viên</p></div>-->
+          <!--            <div class="col-lg-1 col-md-1">-->
+          <!--              <button class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></button>-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <!--          <div class="row" style="margin-right: 190px">-->
+          <!--            <div class="col-lg-1 col-md-1"></div>-->
+          <!--            <div class="col-lg-2 col-md-2"><p class="prescription">Ngày uống</p></div>-->
+          <!--            <div class="col-lg-1 col-md-1"><input class="form-control" type="number"></div>-->
+          <!--            <div class="col-lg-2 col-md-2"><p class="prescription">lần, mỗi lần</p></div>-->
+          <!--            <div class="col-lg-1 col-md-1"><input class="form-control" type="number"></div>-->
+          <!--            <div class="col-lg-1 col-md-1"><p class="prescription">viên</p></div>-->
+          <!--          </div>-->
+
+
+        </fieldset>
+
+        <div>
+          <div id="bt" class="row">
+            <div class="col-lg-8 col-md-8"></div>
+            <div class="col-lg-2 col-md-2">
+              <button class="btn btn-success" style="width: 110px; margin: 5px"><i class="fa fa-check"
+                                                                                   aria-hidden="true"></i> Thêm
+              </button>
+            </div>
+            <div class="col-lg-2 col-md-2">
+              <button [routerLink]="['/prescription/list']" class="btn btn-danger" style="width: 110px; margin: 5px"><i
+                class="fa-solid fa-circle-xmark"></i> Huỷ
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</div>

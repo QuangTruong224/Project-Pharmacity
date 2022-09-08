@@ -1,0 +1,37 @@
+<div class="chatbox-top">
+  <div class="chat-partner-name d-flex align-items-center">
+    <a *ngIf="user">Khách hàng: {{user.name}} | {{user.phone}}</a>
+  </div>
+</div>
+
+<div class="chat-messages" #chatContent [scrollTop]="scrollTop">
+  <div class="message-box-holder"
+       *ngFor="let chat of chats"
+  >
+    <div class="d-flex flex-column align-items-end" *ngIf="chat.name === adminChat.name; else clientChat">
+      <div class="message-you">
+        <small>{{chat.createdAt | date: 'short'}} - <strong>You</strong></small>
+      </div>
+      <div class="message-box">
+        {{chat.message}}
+      </div>
+    </div>
+    <ng-template #clientChat>
+      <div class="message-sender">
+        <small><strong>{{chat.name}}</strong> - {{chat.createdAt | date: 'short'}}</small>
+      </div>
+      <div class="message-box message-partner">
+        {{chat.message}}
+      </div>
+    </ng-template>
+  </div>
+
+</div>
+<div class="chat-input-holder">
+  <form [formGroup]="chatForm" (ngSubmit)="onChatSubmit()" class="w-100 row mx-0">
+    <textarea (keyup.enter)="onChatSubmit()" formControlName="message" class="chat-input" placeholder="Nhập tin nhắn"></textarea>
+    <button type="submit" value="Send" class="message-send">
+      <i role="button" class="fa-solid fa-paper-plane" style="font-size: 1.5rem"></i>
+    </button>
+  </form>
+</div>

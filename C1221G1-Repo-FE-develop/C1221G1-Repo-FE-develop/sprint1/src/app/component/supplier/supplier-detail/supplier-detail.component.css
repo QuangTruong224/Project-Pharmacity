@@ -1,0 +1,31 @@
+.mg-l {
+  margin-left: 30px;
+}
+
+.mg-r {
+  margin-right: 30px;
+}
+
+.center-s {
+  margin-top: 6px;
+}
+
+a {
+  text-decoration: none
+}
+
+#btn button {
+  width: 90px;
+}
+
+.w-all {
+  width: 150px;
+}
+
+.mg-t {
+  margin-top: 15px;
+}
+
+.mg-b {
+  margin-bottom: 20px;
+}

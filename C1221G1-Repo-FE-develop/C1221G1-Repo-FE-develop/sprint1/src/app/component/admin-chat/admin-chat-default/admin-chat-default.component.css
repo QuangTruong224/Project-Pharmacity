@@ -1,0 +1,19 @@
+.chatbox-top {
+  position: relative;
+  display: flex;
+  padding: 10px 0;
+  background: rgba(2,139,179, 1);
+  height: 72px;
+  border-radius: 10px;
+}
+.chat-partner-name {
+  flex: 1;
+  padding: 0 0 0 20px;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: white;
+}
+.chat-partner-name a, .chat-partner-name a:link, .chat-partner-name a:visited {
+  text-decoration: none;
+  color: white;
+}

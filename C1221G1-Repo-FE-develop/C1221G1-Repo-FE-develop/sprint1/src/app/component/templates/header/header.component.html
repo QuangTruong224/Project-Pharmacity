@@ -1,0 +1,111 @@
+<header class="header">
+  <div class="grid">
+    <nav class="header__navbar row" style="margin: 0px">
+      <ul class="header__navbar-list col-xl-5 col-lg-5 col-md-6 col-6">
+        <li class=" header__navbar-item header__navbar-item--has-qr header__navbar-item--separate px-3">
+          Hotline Đặt hàng (Miễn phí)
+        </li>
+        <li class=" header__navbar-item header__navbar-item--has-qr" style="background-color: #0a55ff;     padding: 0.2rem 0.4rem;
+    border-radius: 1rem;">
+          1900 1221
+        </li>
+      </ul>
+      <ul class="header__navbar-list d-flex justify-content-end col-xl-7 col-lg-7 col-md-6 col-6">
+        <li class="header__navbar-item">
+          <i aria-hidden="true" class="header__navbar-icon far fa-question-circle"></i>
+          <a class="header__navbar-item-link">Trợ giúp</a>
+        </li>
+        <li class="header__navbar-item header__navbar-item--strong header__navbar-item--separate" [hidden]="isLogIn"
+            routerLink="/log/sign-up">
+          Đăng ký
+        </li>
+        <li class="header__navbar-item header__navbar-item--strong" [hidden]="isLogIn" routerLink="/log/sign-in">Đăng
+          nhập
+        </li>
+        <li class="header__navbar-item header__navbar-user" [hidden]="!isLogIn">
+          <img alt=""
+               class="header__navbar-user-img" src="https://mdbootstrap.com/img/new/avatars/3.jpg">
+          <span class="header__navbar-user-name">{{username}}</span>
+          <ul class="header__navbar-user-menu">
+<!--            <li class="header__navbar-user-item">-->
+<!--              <a href="">Tài khoản của tôi</a>-->
+<!--            </li>-->
+            <li class="header__navbar-user-item">
+              <a routerLink="/cart/details">Giỏ hàng</a>
+            </li>
+            <li class="header__navbar-user-item header__navbar-user-item--separate">
+              <a (click)="logout($event)">Đăng xuất</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- HEADER AND SEARCH -->
+    <div class="header-with-search row" style="margin: 0px;">
+      <div class="col-xl-3 col-lg-3 col-md-3 col-4">
+        <a class="header__logo-link" href="#">
+          <img alt=""
+               src="https://i.ibb.co/yYRSH4y/Pharmarcode.png" class="col-12">
+        </a>
+      </div>
+      <!--      <div class="header__search col-lg-7 col-6">-->
+      <div class="header__search col-xl-8 col-lg-12 col-md-12 col-12" (change)="searchMedicine(name,typeId)">
+        <div class="header__search-input-wrap">
+          <input class="header__search-input" placeholder="Bạn đang tìm gì hôm nay" type="text" #name>
+        </div>
+        <div class=" mr-3 select-box">
+          <select class="form-control " style="border: none;" #typeId>
+            <option value="">Danh mục</option>
+            <option [value]="1">Vitamin</option>
+            <option [value]="2">Bổ</option>
+            <option [value]="3">An thần</option>
+            <option [value]="4">Kháng sinh</option>
+            <option [value]="5">Ho</option>
+          </select>
+        </div>
+        <button class="header__search-btn">
+          <i aria-hidden="true" (click)="searchMedicine(name,typeId)" class="header__search-btn-icon fa fa-search"></i>
+        </button>
+      </div>
+
+      <!-- CART HANDLE -->
+      <div class="header__cart col-lg-2 col-2">
+        <div class="header__cart-wrap" routerLink="/cart/details">
+          <i aria-hidden="true" class="header__cart-icon fa fa-shopping-cart"></i>
+          <span class="header__cart-notice">{{productQuantityInCart}}</span>
+
+          <!-- Has no cart header__cart-list--no-cart -->
+<!--          <div class="header__cart-list">-->
+<!--            <h4 class="header__cart-heading">Sản phẩm đã thêm</h4>-->
+<!--            <ul class="header__cart-list-item">-->
+<!--              &lt;!&ndash; CART ITEM &ndash;&gt;-->
+<!--              <li class="header__cart-item">-->
+<!--                <img alt=""-->
+<!--                     class="header__cart-img"-->
+<!--                     src="https://data-service.pharmacity.io/pmc-upload-media/production/pmc-ecm-core/products/P22589_16.jpg">-->
+<!--                <div class="header__cart-item-info">-->
+<!--                  <div class="header__cart-item-head">-->
+<!--                    <h5 class="header__cart-item-name">Bộ xét nghiệm nhanh COVID-19 tại nhà Humasis-->
+<!--                      COVID-19 Ag Home Test Kit (Hộp 25 kit)</h5>-->
+<!--                    <div class="header__cart-item-price-wrap">-->
+<!--                      <span class="header__cart-item-price">2.225.000đ</span>-->
+<!--                      <span class="header__cart-item-multiply">x</span>-->
+<!--                      <span class="header__cart-item-qnt">1</span>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="header__cart-item-body">-->
+<!--                    <span class="header__cart-item-description">Phân loại: Lớn</span>-->
+<!--                    &lt;!&ndash;                    <span class="header__cart-item-remove">Xóa</span>&ndash;&gt;-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </li>-->
+<!--            </ul>-->
+<!--            <a class="header__cart-view-cart btn btn&#45;&#45;primary" href="#">Xem giỏ hàng</a>-->
+<!--          </div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+

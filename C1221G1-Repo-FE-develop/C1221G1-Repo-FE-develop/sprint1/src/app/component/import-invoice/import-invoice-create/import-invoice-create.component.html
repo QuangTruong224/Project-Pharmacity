@@ -1,0 +1,253 @@
+<form *ngIf="createImportInvoiceForm" [formGroup]="createImportInvoiceForm">
+  <div class="container-fluid shadow-lg bg-white rounded">
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-lg-8 ">
+        <h3 class="text-center pb-3">Thông Tin Hoá Đơn</h3>
+        <fieldset class="scheduler-border">
+          <div class="row">
+            <div class="col-xl-8 col-md-12 col-sm-12">
+              <div class="mb-3 position-relative">
+                <div class="w-100 d-inline-flex">
+                  <label class="col-3 pl-0">Mã nhà cung cấp</label>
+                  <select class="border-dark border-2 col-8  form-control-sm d-inline-block" formControlName="supplier"
+                          [compareWith]="equal" [ngModel]="selectedSupplier" (ngModelChange)="onChange($event)">
+                    <option *ngFor="let supplier of suppliers" [ngValue]="supplier">
+                      {{supplier.supplierId}}
+                    </option>
+                  </select>
+                  <div class="col-1 pl-1 pr-0">
+                    <button type="button" class="btn-outline-secondary" routerLink='/supplier/create'
+                    ><i class="fa fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="w-100 d-inline-flex">
+                  <label class="col-3 pl-0">Tên nhà cung cấp</label>
+                  <input class="form-control-sm border-dark w-100" type="text" readonly
+                         [value]="selectedSupplier.supplierName">
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="w-100 d-inline-flex">
+                  <label class="col-3 pl-0">Địa chỉ</label>
+                  <input class="form-control-sm border-dark w-100" type="text" readonly
+                         [value]="selectedSupplier.supplierAddress">
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="w-100 d-inline-flex">
+                  <label class="col-3 pl-0">Ghi chú</label>
+                  <textarea class="form-control border-dark border-2 w-100"
+                            id="exampleFormControlTextarea1" rows="3" [value]="selectedSupplier.note"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-4 col-md-12 col-sm-12 ">
+              <div class="mb-3 position-relative">
+                <input type="hidden" formControlName="importInvoiceId">
+              </div>
+              <div class="mb-3 position-relative">
+                <div class="w-100 d-inline-flex">
+                  <label class="col-xl-3 col-3 px-0">Số CT</label>
+                  <input type="text" class="form-control-sm w-100 "
+                         formControlName="importSystemCode" pattern="^[0-9_.-]*$">
+                </div>
+                <p *ngIf="createImportInvoiceForm.controls.importSystemCode.hasError('required')"
+                   class="text-danger pl-2">(*)Thông tin bắt buộc nhập.</p>
+              </div>
+              <div class="mb-3 position-relative">
+                <div class="w-100 d-inline-flex">
+                  <label class="col-xl-3 col-3 px-0">Thời gian lập</label>
+                  <span class="form-control-sm font-weight-bold"> {{now | date: 'HH:mm dd/MM/yyyy'}}</span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <div class="w-100 d-inline-flex">
+                  <label class="col-xl-3 col-3 px-0">Nhân viên</label>
+                  <input type="hidden" class="form-control-sm text-secondary w-100"
+                         formControlName="employee">
+                  <span style="font-weight: bold; ">{{defaultEmployee.employeeName}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div class="col-md-12 col-sm-12 col-lg-1" class="crossLine"></div>
+      <div class="col-md-12 col-sm-12 col-lg-3">
+        <fieldset class="scheduler-border pt-2 ">
+          <h5 class="text-center pb-3">Thanh toán</h5>
+          <div class="mb-3">
+            <div class="w-100 d-inline-flex">
+              <label class="col-6 pl-0">Tổng tiền</label>
+              <input class="form-control-sm border-dark w-110 font-weight-normal" type="text"
+                     formControlName="total" [ngModel]="totalMoney" readonly>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="w-100 d-inline-flex">
+              <label class="col-6 pl-0">Trả trước</label>
+              <input class="form-control-sm border-dark w-110" type="text"
+                     formControlName="paymentPrepayment" (mouseout)="updateRemain()" [(ngModel)]="prePayment">
+              <button type="button" (click)="payOff()" title="Trả hết"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                     fill="currentColor" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384
+  7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+              </button>
+            </div>
+            <span *ngIf="checkInvalidRemainMoney" class="text-danger">Tiền trả trước không thể lớn hơn tổng tiền.</span>
+            <span *ngIf="checkInvalidRemainMoney2" class="text-danger">Vui lòng nhập số (không âm)!</span>
+          </div>
+          <div class="mb-4">
+            <div class="w-100 d-inline-flex">
+              <label class="col-6 pl-0">Còn lại</label>
+              <span class="font-weight-bold font-italic">{{remainMoney|number}} VND</span>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center mb-1">
+      <button class="btn btn-success button mx-1" (click)="chooseMedicine()">Chọn thuốc</button>
+      <button class="btn btn-secondary button mx-1"
+              (click)="showMedicineImportList()">Danh sách thuốc đã chọn
+        <span class="badge badge-light">{{quantityCart}}</span>
+      </button>
+    </div>
+    <div *ngIf="isShowMedicineList">
+      <div class="row">
+        <table class="table table-striped table-hover">
+          <thead class="table-success">
+          <tr>
+            <th class="col-2">Mã thuốc</th>
+            <th class="col-3">Tên thuốc</th>
+            <th class="col-2">Giá nhập</th>
+            <th class="col-2">Xuất sứ</th>
+            <th class="col-2">Nhà sản xuất</th>
+            <th class="col-1">Thao tác</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let medicine of medicines">
+            <td>{{medicine.medicineId}}</td>
+            <td>{{medicine.medicineName}}</td>
+            <td class="font-weight-bold">{{medicine.medicineImportPrice|number}} VND</td>
+            <td>{{medicine.medicineOrigin.medicineOriginName}}</td>
+            <td>{{medicine.medicineManufacture}}</td>
+            <td>
+              <button class="btn-info" (mouseup)="sendMedicine(medicine)" (click)="importMedicine(medicine)">Nhập
+                thuốc
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div *ngIf="cartMedicine">
+      <fieldset class="scheduler-border ">
+        <legend class="scheduler-border text-center">Danh Sách Thuốc Nhập Kho</legend>
+        <div *ngIf="flagNoMedicine">
+          <h2 class="text-center pl-7" style="text-align: center">Chưa có thuốc nào được chọn, vui lòng chọn thêm
+            thuốc!</h2>
+        </div>
+        <div class="row">
+          <table class="table table-striped table-hover" style="table-layout: fixed;">
+            <thead class="table-success w-100">
+            <tr>
+              <th class="col-2">Tên thuốc</th>
+              <th class="col-1">Đơn vị tính</th>
+              <th class="col-1">Số lượng</th>
+              <th class="col-1">Đơn giá</th>
+              <th class="col-1">%CK</th>
+              <th class="col-1">VAT</th>
+              <th class="col-1">Thành tiền</th>
+              <th class="col-2">HSD</th>
+              <th class="col-1">Số lô</th>
+              <th class="col-1">Thao tác</th>
+            </tr>
+            </thead>
+            <tbody formArrayName="importInvoiceMedicineList">
+            <tr *ngFor="let medicine of importInvoiceMedicineListSelected.controls; let i=index" formGroupName="{{i}}">
+              <input type="hidden" formGroupName="importInvoiceMedicineId">
+              <input type="hidden" name="medicine" id="medicine"
+                     formControlName="medicine">
+              <td class="center">
+                <input type="text" class="form-control" formControlName="medicineName" readonly/>
+              </td>
+              <td class="center">
+                <input type="text" class="form-control justify-content-center" name="medicineUnit"
+                       id="medicineUnit"
+                       formControlName="medicineUnit" readonly>
+              </td>
+              <td class="center">
+                <input type="text" class="form-control" name="importInvoiceMedicineImportAmount"
+                       id="importInvoiceMedicineImportAmount"
+                       formControlName="importInvoiceMedicineImportAmount">
+              </td>
+              <td class="center">
+                <input type="text" class="form-control" name="importInvoiceMedicineImportPrice"
+                       id="importInvoiceMedicineImportPrice"
+                       formControlName="importInvoiceMedicineImportPrice" readonly>
+              </td>
+              <td class="center">
+                <input type="text" class="form-control" name="importInvoiceMedicineDiscountRate"
+                       id="importInvoiceMedicineDiscountRate"
+                       formControlName="importInvoiceMedicineDiscountRate" readonly>
+              </td>
+              <td class="center">
+                <input type="text" class="form-control" name="importInvoiceMedicineVat"
+                       id="importInvoiceMedicineVat" formControlName="importInvoiceMedicineVat" readonly>
+              </td>
+              <td class="center">
+                <div>
+                  <input class="form-control" (ngModelChange)="updateTotal()" type="text" formControlName="intoMoney"
+                         readonly
+                         [ngModel]="((medicine.get('importInvoiceMedicineImportAmount').value
+                *medicine.get('importInvoiceMedicineImportPrice').value)/100
+                *(100-medicine.get('importInvoiceMedicineDiscountRate').value))
+                +((medicine.get('importInvoiceMedicineImportAmount').value
+                *medicine.get('importInvoiceMedicineImportPrice').value)/100
+                  *(100-medicine.get('importInvoiceMedicineDiscountRate').value))
+                *(medicine.get('importInvoiceMedicineVat').value)/100">
+                </div>
+              </td>
+              <td class="center">
+                <input type="date" class="form-control" name="importInvoiceMedicineExpiry"
+                       id="importInvoiceMedicineExpiry" formControlName="importInvoiceMedicineExpiry">
+              </td>
+              <td class="center">
+                <input type="text" class="form-control item" name="importInvoiceMedicineLotNumber"
+                       id="importInvoiceMedicineLotNumber" formControlName="importInvoiceMedicineLotNumber"
+                       required>
+              </td>
+              <td>
+                <button type="button"
+                        class="btn btn-danger" (mouseup)="sendMedicineDelete(medicine.get('medicine').value)"
+                        (click)="sendMedicineToDelete(i)"> Xóa
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button class="mr-4 btn btn-success button"
+                  type="submit" (click)="createNewImportInvoice()"><i class="fa fa-plus" aria-hidden="true"></i> Hoàn
+            tất
+          </button>
+          <button class="mr-4 btn btn-secondary button" type="button" [routerLink]="['/import-invoice']"><i
+            class="icon-sidebar fa fa-reply"></i>
+            Trở về
+          </button>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+</form>

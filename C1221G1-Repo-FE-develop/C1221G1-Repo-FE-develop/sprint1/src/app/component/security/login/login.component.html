@@ -1,0 +1,75 @@
+<div class="bg-img container-fluid"
+
+>
+  <div class="row d-flex justify-content-center align-items-center  vh-100 m-auto">
+    <div>
+      <form [formGroup]="signInForm" (ngSubmit)="submitSignIn()">
+        <div class="h-50 p-4 shadow-lg  bg-white rounded">
+          <div>
+            <h3 class="text-success">Đăng nhập</h3>
+          </div>
+          <h4 class="text-secondary">Cảm ơn quý khách đã tin cậy và lựa chọn chúng tôi</h4>
+          <hr>
+          <div class="row my-2">
+            <span class="text-success col-3 pl-4" style="font-size: 1.1rem">Tài khoản</span>
+            <input type="text" class="w-100 border border-success rounded col-8 form-control-sm ml-4"
+                   formControlName="username"
+                   placeholder="pharmacy@email.com">
+          </div>
+          <div class="row p-0 m-0">
+            <p class="col-12 text-right text-danger m-0 p-0"
+               *ngIf="signInForm.controls.username.hasError('required') &&
+             (signInForm.controls.username.touched || signInForm.controls.username.dirty)"
+            >Vui lòng không để trống.</p>
+            <p class="col-12 text-right text-danger m-0 p-0"
+               *ngIf="signInForm.controls.username.hasError('email') &&
+             (signInForm.controls.username.touched || signInForm.controls.username.dirty)"
+            >Email phải đúng định dạng, và có độ dài từ 11 - 100 kí tự</p>
+            <p class="col-12 text-right text-danger m-0 p-0"
+               *ngIf="errorMap && (signInForm.controls.username.touched ||signInForm.controls.username.dirty)"
+            >{{errorMap['username']}}</p>
+          </div>
+          <div class="row my-2">
+            <span class="text-success col-3 pl-4" style="font-size: 1.1rem">Mật khẩu</span>
+            <input type="password"
+                   formControlName="password"
+                   class="w-100 border border-success rounded form-control-sm col-8 ml-4">
+          </div>
+          <div class="row p-0 m-0">
+            <p class="col-12 text-right text-danger m-0 p-0"
+               *ngIf="signInForm.controls.password.hasError('required')
+             &&
+             (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
+            >Vui lòng không để trống.</p>
+            <p class="col-12 text-right text-danger m-0 p-0"
+               *ngIf="signInForm.controls.password.hasError('minlength') &&
+             (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
+            >Mật khẩu quá ngắn vui lòng thử lại.</p>
+            <p class="col-12 text-right text-danger m-0 p-0"
+               *ngIf="signInForm.controls.password.hasError('maxlength') &&
+             (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
+            >Mật khẩu quá dài vui lòng thử lại.</p>
+            <p class="col-12 text-right text-danger m-0 p-0"
+               *ngIf="signInForm.controls.password.hasError('pattern')
+             &&
+             (signInForm.controls.password.touched || signInForm.controls.password.dirty)"
+            >Mật khẩu chứa ít nhất 1 số,chữ thường,chữ hoa,kí tự đặc biệt.</p>
+            <p class="col-12 text-right text-danger m-0 p-0"
+               *ngIf="errorMap && (signInForm.controls.password.touched||signInForm.controls.password.dirty)"
+            >{{errorMap['password']}}</p>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-center">
+            <a (click)="signInWithFaceBook()" class="btn btn-primary col-6 text-center"><i
+              class="fa-brands fa-facebook"></i> Đăng nhập bằng Facebook</a>
+          </div>
+          <p class="text-center text-success my-2">Chúc quý khách có những trải nghiệm tốt ở cửa hàng chúng tôi.</p>
+          <div class="row my-2">
+            <a routerLink="/home-page" class="btn btn-secondary col-4 mx-auto">Thoát</a>
+            <button type="submit" class="btn btn-success col-4 mx-auto">Đăng nhập</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

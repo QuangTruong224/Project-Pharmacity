@@ -1,0 +1,17 @@
+tr:hover {
+  background-color: lightgrey;
+}
+
+p.name {
+  white-space: nowrap;
+  width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+p.ingredients {
+  white-space: nowrap;
+  width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

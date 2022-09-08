@@ -1,0 +1,18 @@
+:root {
+    --white-color: #fff;
+    --black-color: #000;
+    --text-color: #000000cc;
+    --primary-color: #1997ff;
+    --secondary-color: #0a55ff;
+    --border-color: #dbdbdb;
+    --star-gold-color: #ffce3e;
+    --navbar-height: 320px;
+    --header-height: 320px;
+    --header-with-search-height: calc(
+            var(--header-height) - var(--navbar-height)
+    );
+}
+
+
+
+

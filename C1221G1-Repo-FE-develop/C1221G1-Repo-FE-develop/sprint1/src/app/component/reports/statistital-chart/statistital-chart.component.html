@@ -1,0 +1,133 @@
+<div class="container p-2">
+  <h2 class="text-center">Biểu Đồ Thống Kê</h2>
+  <div class="row">
+    <div class="col-lg-5 col-sm-12">
+      <fieldset class="border p-2 shadow-lg  bg-white rounded-lg">
+        <legend class="w-auto" style="font-weight: bold;">Chọn thời gian thống kê</legend>
+        <form [formGroup]="staticForm" (ngSubmit)="submit()">
+          <div class="row" style="margin-bottom: 32px; padding-left: 15px; padding-right: 15px">
+            <div class="control-group col-6">
+              <label class="control-label input-label" style="font-weight: bold">Chọn năm : </label>
+              <select class="form-control" formControlName="year">
+                <option value="">----Chọn năm----</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+              </select>
+            </div>
+            <div class="control-group col-6">
+              <label class="control-label input-label" style="font-weight: bold">Chọn tháng : </label>
+              <select class="form-control" formControlName="month">
+                <option value="">----Chọn tháng----</option>
+                <option value="1">Tháng 1</option>
+                <option value="2">Tháng 2</option>
+                <option value="3">Tháng 3</option>
+                <option value="4">Tháng 4</option>
+                <option value="5">Tháng 5</option>
+                <option value="6">Tháng 6</option>
+                <option value="7">Tháng 7</option>
+                <option value="8">Tháng 8</option>
+                <option value="9">Tháng 9</option>
+                <option value="10">Tháng 10</option>
+                <option value="11">Tháng 11</option>
+                <option value="12">Tháng 12</option>
+              </select>
+            </div>
+          </div>
+          <div class="text-right" >
+            <button (click)="submit()" type="submit" class="btn btn-success">
+              <i class="fa fa-eye" aria-hidden="true"></i>Xem</button>
+          </div>
+        </form>
+      </fieldset>
+      <div style="height: 15px"></div>
+      <fieldset class="border p-2 shadow-lg bg-white rounded-lg">
+        <legend class="w-auto" style="font-weight: bold">Báo cáo chi tiết</legend>
+        <table class="table">
+          <th></th>
+          <th *ngIf="statics.length!=0">Năm {{showYear}}</th>
+          <th *ngIf="staticsByMonth.length!=0">Tháng {{showMonth}}</th>
+          <tr>
+            <th>Doanh thu</th>
+            <td *ngIf="statics.length!=0">{{statics[0].revenue+statics[1].revenue+statics[2].revenue+statics[3].revenue
+            +statics[4].revenue+statics[5].revenue+statics[6].revenue+statics[7].revenue
+            +statics[8].revenue+statics[9].revenue+statics[10].revenue+statics[11].revenue|number:'1.1-1'}} VND</td>
+            <td *ngIf="staticsByMonth.length!=0">{{staticsByMonth[0].revenue+staticsByMonth[1].revenue
+            +staticsByMonth[2].revenue+staticsByMonth[3].revenue+staticsByMonth[4].revenue+staticsByMonth[5].revenue
+            +staticsByMonth[6].revenue+staticsByMonth[7].revenue+staticsByMonth[8].revenue+staticsByMonth[9].revenue
+            +staticsByMonth[10].revenue+staticsByMonth[11].revenue+staticsByMonth[12].revenue+staticsByMonth[13].revenue
+            +staticsByMonth[14].revenue+staticsByMonth[15].revenue+staticsByMonth[16].revenue+staticsByMonth[17].revenue
+            +staticsByMonth[18].revenue+staticsByMonth[19].revenue+staticsByMonth[20].revenue+staticsByMonth[21].revenue
+            +staticsByMonth[22].revenue+staticsByMonth[23].revenue+staticsByMonth[24].revenue+staticsByMonth[25].revenue
+            +staticsByMonth[26].revenue+staticsByMonth[27].revenue+staticsByMonth[28].revenue+staticsByMonth[29].revenue
+            +staticsByMonth[30].revenue|number:'1.1-1'}} VND</td>
+          </tr>
+          <tr>
+            <th>Lợi nhuận</th>
+            <td *ngIf="statics.length!=0">{{statics[0].profit+statics[1].profit+statics[2].profit+statics[3].profit
+            +statics[4].profit+statics[5].profit+statics[6].profit+statics[7].profit
+            +statics[8].profit+statics[9].profit+statics[10].profit+statics[11].profit|number:'1.1-1'}} VND</td>
+            <td *ngIf="staticsByMonth.length!=0">{{staticsByMonth[0].profit+staticsByMonth[1].profit
+            +staticsByMonth[2].profit+staticsByMonth[3].profit+staticsByMonth[4].profit+staticsByMonth[5].profit
+            +staticsByMonth[6].profit+staticsByMonth[7].profit+staticsByMonth[8].profit+staticsByMonth[9].profit
+            +staticsByMonth[10].profit+staticsByMonth[11].profit+staticsByMonth[12].profit+staticsByMonth[13].profit
+            +staticsByMonth[14].profit+staticsByMonth[15].profit+staticsByMonth[16].profit+staticsByMonth[17].profit
+            +staticsByMonth[18].profit+staticsByMonth[19].profit+staticsByMonth[20].profit+staticsByMonth[21].profit
+            +staticsByMonth[22].profit+staticsByMonth[23].profit+staticsByMonth[24].profit+staticsByMonth[25].profit
+            +staticsByMonth[26].profit+staticsByMonth[27].profit+staticsByMonth[28].profit+staticsByMonth[29].profit
+            +staticsByMonth[30].profit|number:'1.1-1'}} VND</td>
+          </tr>
+          <tr>
+            <th>Doanh thu TB</th>
+            <td *ngIf="statics.length!=0">{{(statics[0].revenue+statics[1].revenue+statics[2].revenue+statics[3].revenue
+              +statics[4].revenue+statics[5].revenue+statics[6].revenue+statics[7].revenue
+              +statics[8].revenue+statics[9].revenue+statics[10].revenue+statics[11].revenue)/12|number:'1.1-1'}} VND</td>
+            <td *ngIf="staticsByMonth.length!=0">{{(staticsByMonth[0].revenue+staticsByMonth[1].revenue
+              +staticsByMonth[2].revenue+staticsByMonth[3].revenue+staticsByMonth[4].revenue+staticsByMonth[5].revenue
+              +staticsByMonth[6].revenue+staticsByMonth[7].revenue+staticsByMonth[8].revenue+staticsByMonth[9].revenue
+              +staticsByMonth[10].revenue+staticsByMonth[11].revenue+staticsByMonth[12].revenue+staticsByMonth[13].revenue
+              +staticsByMonth[14].revenue+staticsByMonth[15].revenue+staticsByMonth[16].revenue+staticsByMonth[17].revenue
+              +staticsByMonth[18].revenue+staticsByMonth[19].revenue+staticsByMonth[20].revenue+staticsByMonth[21].revenue
+              +staticsByMonth[22].revenue+staticsByMonth[23].revenue+staticsByMonth[24].revenue+staticsByMonth[25].revenue
+              +staticsByMonth[26].revenue+staticsByMonth[27].revenue+staticsByMonth[28].revenue+staticsByMonth[29].revenue
+              +staticsByMonth[30].revenue)/31|number:'1.1-1'}} VND</td>
+          </tr>
+          <tr>
+            <th>Lợi nhuận TB</th>
+            <td *ngIf="statics.length!=0">{{(statics[0].profit+statics[1].profit+statics[2].profit+statics[3].profit
+              +statics[4].profit+statics[5].profit+statics[6].profit+statics[7].profit
+              +statics[8].profit+statics[9].profit+statics[10].profit+statics[11].profit)/12|number:'1.1-1'}} VND</td>
+            <td *ngIf="staticsByMonth.length!=0">{{(staticsByMonth[0].profit+staticsByMonth[1].profit
+              +staticsByMonth[2].profit+staticsByMonth[3].profit+staticsByMonth[4].profit+staticsByMonth[5].profit
+              +staticsByMonth[6].profit+staticsByMonth[7].profit+staticsByMonth[8].profit+staticsByMonth[9].profit
+              +staticsByMonth[10].profit+staticsByMonth[11].profit+staticsByMonth[12].profit+staticsByMonth[13].profit
+              +staticsByMonth[14].profit+staticsByMonth[15].profit+staticsByMonth[16].profit+staticsByMonth[17].profit
+              +staticsByMonth[18].profit+staticsByMonth[19].profit+staticsByMonth[20].profit+staticsByMonth[21].profit
+              +staticsByMonth[22].profit+staticsByMonth[23].profit+staticsByMonth[24].profit+staticsByMonth[25].profit
+              +staticsByMonth[26].profit+staticsByMonth[27].profit+staticsByMonth[28].profit+staticsByMonth[29].profit
+              +staticsByMonth[30].profit)/31|number:'1.1-1'}} VND</td>
+          </tr>
+        </table>
+      </fieldset>
+    </div>
+    <div class="col-lg-7 col-sm-12">
+      <fieldset id="containChart" class="border p-2 shadow-lg  bg-white rounded-lg "  style=" height: 100%; margin-bottom: 0px">
+        <legend class="w-auto" style="font-weight: bold">Biểu  đồ</legend>
+        <h5 class="text-center" style="color: red" *ngIf="!show&&!show1">Cần chọn thời gian thống kê hợp lệ</h5>
+        <h5 class="text-center" style="color: burlywood" *ngIf="show">Năm {{showYear}}</h5>
+        <h5 class="text-center" style="color: burlywood" *ngIf="show1">Tháng {{showMonth}}</h5>
+        <canvas style="width: 100%" id="myChart"></canvas>
+      </fieldset>
+    </div>
+  </div>
+  <div style="height: 15px"></div>
+  <div class="container col-12 text-right" id="btn">
+    <a routerLink="/reports/report">
+      <button class="btn btn-secondary">
+        <i class="fa fa-undo" aria-hidden="true"></i> Trở về
+      </button>
+    </a>
+  </div>
+</div>

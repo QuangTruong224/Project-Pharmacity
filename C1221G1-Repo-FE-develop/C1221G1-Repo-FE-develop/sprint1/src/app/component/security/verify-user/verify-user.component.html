@@ -1,0 +1,24 @@
+<div class="container-fluid" style="height:150px">
+  <div *ngIf="status ; else elseBlock">
+    <div class="row">
+      <div class="col-12 p-4 m-4">
+        <h4 class="text-success text-center">
+          Quá trình xác thực thành công.
+        </h4>
+        <p class="text-success text-center">Bạn đã có thể đăng nhập tài khoản của mình và trải nghiệm dịch vụ của chúng tôi.</p>
+      </div>
+    </div>
+
+  </div>
+  <ng-template #elseBlock>
+    <div class="row">
+      <div class="col-12 p-4 m-4">
+        <h4 class="text-danger text-center">Quá trình xác thực xảy ra lỗi!</h4>
+        <p class="text-danger text-center">Xác thực tài khoản thất bại! Vui lòng kiểm tra lại quá trình xác thực.</p>
+      </div>
+
+    </div>
+
+  </ng-template>
+</div>
+

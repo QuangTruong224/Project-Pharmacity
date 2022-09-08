@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div>
+        <fieldset style="border: 1px groove black">
+          <legend class="w-auto">Thông Tin Nhà Cung Cấp</legend>
+          <div class="row  mx-auto text-center mg-b">
+            <div class="col-sm-12 col-md-6 input-group mg-b">
+              <div class="input-group-prepend">
+                <span class="input-group-text w-all"> Mã Nhà Cung Cấp</span>
+              </div>
+              <input aria-label="First name" class="form-control" disabled value="{{supplierValue.supplierId}}"
+                     type="text">
+            </div>
+            <br>
+            <div class="col-sm-12 col-md-6  input-group mg-b">
+              <div class="input-group-prepend">
+                <span class="input-group-text w-all mgl ">Tên Nhà cung Cấp </span>
+              </div>
+              <input aria-label="Last name" class="form-control" value="{{supplierValue.supplierName}}" disabled
+                     type="text">
+            </div>
+            <div class="col-sm-12 col-md-6 input-group  mg-b">
+              <div class="input-group-prepend">
+                <span class="input-group-text w-all"> Số Điện Thoại </span>
+              </div>
+              <input aria-label="First name" class="form-control" value="{{supplierValue.supplierPhone}}" disabled
+                     type="text">
+            </div>
+            <br>
+            <div class="col-sm-12 col-md-6  input-group mg-b">
+              <div class="input-group-prepend">
+                <span class="input-group-text w-all mgl ">Địa Chỉ  </span>
+              </div>
+              <input aria-label="Last name" class="form-control" value="{{supplierValue.supplierAddress}}" disabled
+                     type="text">
+            </div>
+            <div class="col-sm-12 col-md-6 input-group mg-b">
+              <div class="input-group-prepend">
+                <span class="input-group-text w-all  ">  Công Nợ </span>
+              </div>
+              <input *ngIf="supplierValue.debt" aria-label="First name" class="form-control"
+                     value="{{supplierValue.debt | number }} VND" disabled
+                     type="text">
+
+              <input *ngIf="supplierValue.debt == null || supplierValue.debt == undefined" aria-label="First name"
+                     class="form-control" value="Chưa Nhập Thuốc Vào Kho" disabled
+                     type="text">
+            </div>
+            <br>
+            <div class="col-sm-12 col-md-6  input-group mg-b">
+              <div class="input-group-prepend">
+                <span class="input-group-text w-all mgl ">Email   </span>
+              </div>
+              <input aria-label="Last name" class="form-control" value="{{supplierValue.supplierEmail}}" disabled
+                     type="text">
+            </div>
+            <div class="col-sm-12 col-md-12  input-group mg-b">
+              <div class="input-group-prepend">
+                <span class="input-group-text w-all mgl "> Ghi Chú  </span>
+              </div>
+              <textarea aria-label="Last name" rows="6" cols="70" class="form-control" disabled
+                        *ngIf="supplierValue.note.length != 0 "
+                        value="{{supplierValue.note}}"></textarea>
+
+              <textarea aria-label="Last name" class="form-control" disabled
+                        value=""
+                        *ngIf="supplierValue.note.length == 0 ">Không Có Ghi Chú gì Cho Nhà Cung Cấp Này  </textarea>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+      <div style="margin-top: 10px">
+        <div style="float: right">
+          <button class="btn btn-info  mx-2" type="button">
+            <a [routerLink]="['/import-invoice/']" style="color: white"><i aria-hidden="true"
+                                                                           class="fa fa-address-card"></i>Xem Hóa
+              Đơn</a>
+
+          </button>
+        </div>
+        <button class="btn btn-warning  mx-2" style="float: right">
+          <a [routerLink]="['/supplier/edit/',supplierValue.supplierId]"
+             style="color: white">
+            <i aria-hidden="true" class="fa fa-pencil"></i>Sửa</a>
+        </button>
+        <div style="float: right">
+          <button class="btn btn-secondary  mx-2">
+            <a [routerLink]="['/supplier/']" style="color: white">
+              <i aria-hidden="true" class="fa fa-undo"></i> Trở về</a>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mx-auto text-center" style="clear: both">
+    </div>
+  </div>
+</div>

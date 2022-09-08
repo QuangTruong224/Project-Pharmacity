@@ -1,0 +1,107 @@
+<div style="margin: 15px">
+  <!--    <div><p style="margin-top: 20px">Thông tin đơn thuốc</p></div>-->
+  <!--    <hr>-->
+
+  <div class="container shadow">
+    <form [formGroup]="prescriptionForm" (ngSubmit)="updatePrescription(prescriptionId)">
+      <div><h3 style="text-align: center">Chỉnh Sửa Đơn Thuốc</h3></div>
+      <div class="row">
+        <div class="col-lg-2 col-md-2"><label><p></p></label></div>
+        <div class="col-lg-10 col-md-10"><input type="hidden" formControlName="prescriptionId" name="prescriptionId">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 col-md-2"><label><p>Tên đơn thuốc<span> (*)</span></p></label></div>
+        <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionName"
+                                                name="prescriptionName">
+          <span *ngIf="prescriptionForm.get('prescriptionName').errors?.required &&
+          prescriptionForm.get('prescriptionName').dirty">
+            Tên đơn thuốc không được để trống!</span>
+          <span *ngIf="prescriptionForm.get('prescriptionName').errors?.pattern &&
+          prescriptionForm.get('prescriptionName').dirty">
+            Tên đơn thuốc không chứa các kí tự đặc biệt!</span>
+          <span *ngIf="prescriptionForm.get('prescriptionName').errors?.minlength &&
+          prescriptionForm.get('prescriptionName').dirty">
+            Tên đơn thuốc không được nhỏ hơn 5 kí tự!</span>
+          <span *ngIf="prescriptionForm.get('prescriptionName').errors?.maxlength &&
+          prescriptionForm.get('prescriptionName').dirty">
+            Tên đơn thuốc không được dài hơn 50 kí tự!</span></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 col-md-2"><label><p>Triệu chứng<span> (*)</span></p></label></div>
+        <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionSymptom"
+                                                name="prescriptionSymptom">
+          <span *ngIf="prescriptionForm.get('prescriptionSymptom').errors?.required &&
+          prescriptionForm.get('prescriptionSymptom').dirty">
+            Triệu chứng không được để trống!</span>
+          <span *ngIf="prescriptionForm.get('prescriptionSymptom').errors?.pattern &&
+          prescriptionForm.get('prescriptionSymptom').dirty">
+            Triệu chứng không chứa các kí tự đặc biệt!</span>
+          <span *ngIf="prescriptionForm.get('prescriptionSymptom').errors?.minlength &&
+          prescriptionForm.get('prescriptionSymptom').dirty">
+            Triệu chứng không được nhỏ hơn 5 kí tự!</span>
+          <span *ngIf="prescriptionForm.get('prescriptionSymptom').errors?.maxlength &&
+          prescriptionForm.get('prescriptionSymptom').dirty">
+            Triệu chứng không được dài hơn 100 kí tự!</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 col-md-2"><label><p>Ghi chú<span> (*)</span></p></label></div>
+        <div class="col-lg-10 col-md-10"><input class="form-control" formControlName="prescriptionNote"
+                                                name="prescriptionNote">
+          <span *ngIf="prescriptionForm.get('prescriptionNote').errors?.required &&
+          prescriptionForm.get('prescriptionNote').dirty">
+            Ghi chú không được để trống!</span>
+          <span *ngIf="prescriptionForm.get('prescriptionNote').errors?.pattern &&
+          prescriptionForm.get('prescriptionNote').dirty">
+            Ghi chú không chứa các kí tự đặc biệt!</span>
+          <span *ngIf="prescriptionForm.get('prescriptionNote').errors?.minlength &&
+          prescriptionForm.get('prescriptionNote').dirty">
+            Ghi chú không được nhỏ hơn 5 kí tự!</span>
+          <span *ngIf="prescriptionForm.get('prescriptionNote').errors?.maxlength &&
+          prescriptionForm.get('prescriptionNote').dirty">
+            Ghi chú không được dài hơn 100 kí tự!</span></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 col-md-2"><label>Đối tượng<span> (*)</span></label></div>
+        <div class="col-lg-3 col-md-3">
+          <select class="form-control" formControlName="prescriptionTargetUser" name="prescriptionTargetUser" id="">
+            <option value="" disabled selected>--- Chọn đối tượng ---</option>
+            <option value="Trẻ em">Trẻ em</option>
+            <option value="Người lớn">Người lớn</option>
+            <option value="Phụ nữ mang thai">Phụ nữ mang thai</option>
+          </select><span *ngIf="prescriptionForm.get('prescriptionTargetUser').errors?.required &&
+          prescriptionForm.get('prescriptionTargetUser').pristine">
+            Đối tượng không được để trống!</span></div>
+        <div class="col-lg-2 col-md-2"></div>
+        <div class="col-lg-2 col-md-2"><label for=""><p>Số ngày uống<span> (*)</span></p></label></div>
+        <div class="col-lg-3 col-md-3"><input class="form-control" formControlName="prescriptionNumberOfDays"
+                                              name="prescriptionNumberOfDays" type="number">
+          <span *ngIf="prescriptionForm.get('prescriptionNumberOfDays').errors?.required &&
+          prescriptionForm.get('prescriptionNumberOfDays').dirty">
+            Số ngày uống không được để trống!</span>
+          <span *ngIf="prescriptionForm.get('prescriptionNumberOfDays').errors?.min &&
+          prescriptionForm.get('prescriptionNumberOfDays').dirty">
+            Số ngày uống không được nhỏ hơn 1!</span>
+          <span *ngIf="prescriptionForm.get('prescriptionNumberOfDays').errors?.max &&
+          prescriptionForm.get('prescriptionNumberOfDays').dirty">
+            Số ngày uống không được lớn hơn 365!</span></div>
+      </div>
+
+      <div id="bt" class="row">
+        <div class="col-lg-8 col-md-8"></div>
+        <div class="col-lg-2 col-md-2">
+          <button type="submit" class="btn btn-success" style="width: 110px; margin: 5px"><i
+            class="fa fa-check" aria-hidden="true"></i> Sửa
+          </button>
+        </div>
+        <div class="col-lg-2 col-md-2">
+          <button [routerLink]="['/prescription/list']" class="btn btn-danger"
+                  style="width: 110px; margin: 5px"><i class="fa-solid fa-circle-xmark"></i> Huỷ
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>

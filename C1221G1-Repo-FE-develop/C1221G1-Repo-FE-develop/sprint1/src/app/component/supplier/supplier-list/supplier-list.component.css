@@ -1,0 +1,54 @@
+.mgl {
+  margin-left: 30px;
+}
+tr:hover{
+  background-color: lightgrey;
+}
+
+.mg-r {
+  margin-right: 10px;
+}
+
+.center-s {
+  margin-top: 6px;
+}
+
+a {
+  text-decoration: none
+}
+
+#btn button {
+  width: 90px;
+}
+
+.pd-t {
+  padding-left: 0;
+  padding-right: 0;
+}
+.custom-venue tr:hover {
+  cursor: pointer;
+  background: #ffc846;
+  font-weight: bold;
+}
+
+.custom-venue td:focus {
+  outline: none;
+  background: #34ce57;
+  font-weight: bold;
+}
+
+.pd-l{
+  padding-left: 0px;
+}
+
+td {
+  height: 70px;
+}
+
+.bgr {
+  text-align: center;
+}
+
+.lf {
+  text-align: left;
+}

@@ -1,0 +1,263 @@
+<h2 class="text-center">Thêm Mới Thông Tin Thuốc</h2>
+<form [formGroup]="medicineCreateForm" *ngIf="medicineCreateForm" (ngSubmit)="createMedicine()">
+  <div class="container shadow-lg p-3 mb-5 bg-white rounded">
+    <div class="row">
+      <div class="col-12 my-2">
+        Tên thuốc<span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineName">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineName').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineName').dirty || medicineCreateForm.get('medicineName').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <input class="form-control" type="text" placeholder="Tên thuốc" formControlName="medicineName">
+      </div>
+      <div class="col-6 my-2">
+        Hoạt chất<span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineActiveIngredients">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineActiveIngredients').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineActiveIngredients').dirty ||
+            medicineCreateForm.get('medicineActiveIngredients').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <input class="form-control" type="text" placeholder="Hoạt chất" formControlName="medicineActiveIngredients">
+      </div>
+      <div class="col-6 my-2">
+        Nhóm thuốc<span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineType">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineType').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineType').dirty || medicineCreateForm.get('medicineType').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <select class="custom-select" formControlName="medicineType">
+          <option disabled selected value="">--Chọn--</option>
+          <option *ngFor="let item of medicineTypeList" [ngValue]="item">{{item.medicineTypeName}}</option>
+        </select>
+      </div>
+      <div class="col-12 my-2">
+        <hr>
+      </div>
+      <div class="col-4 my-2">
+        Đơn vị <span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineUnit">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineUnit').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineUnit').dirty || medicineCreateForm.get('medicineUnit').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <select class="custom-select" formControlName="medicineUnit">
+          <option disabled selected value="">--Chọn--</option>
+          <option *ngFor="let item of medicineUnitList" [ngValue]="item">{{item.medicineUnitName}}</option>
+        </select>
+      </div>
+      <div class="col-4 my-2">
+        Đơn vị quy đổi<span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineConversionUnit">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineConversionUnit').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineConversionUnit').dirty ||
+            medicineCreateForm.get('medicineConversionUnit').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <select class="custom-select" formControlName="medicineConversionUnit">
+          <option disabled selected value="">--Chọn--</option>
+          <option *ngFor="let item of medicineConversionUnitList"
+                  [ngValue]="item">{{item.medicineConversionUnitName}}</option>
+        </select>
+      </div>
+      <div class="col-4 my-2">
+        Tỉ lệ quy đổi
+        <span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineConversionRate">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineConversionRate').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineConversionRate').dirty ||
+            medicineCreateForm.get('medicineConversionRate').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <input class="form-control" type="text" placeholder="Tỉ lệ quy đổi" formControlName="medicineConversionRate">
+      </div>
+      <div class="col-6 my-2">
+        % Lợi nhuận xuất chẵn
+        <span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineWholesaleProfit">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineWholesaleProfit').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineWholesaleProfit').dirty ||
+            medicineCreateForm.get('medicineWholesaleProfit').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <input class="form-control" type="text" placeholder="% Lợi nhuận xuất chẵn"
+               formControlName="medicineWholesaleProfit">
+      </div>
+      <div class="col-6 my-2">
+        % Lợi nhuận xuất lẻ
+        <span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineRetailSaleProfit">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineRetailSaleProfit').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineRetailSaleProfit').dirty ||
+            medicineCreateForm.get('medicineRetailSaleProfit').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <input class="form-control" type="text" placeholder="% Lợi nhuận xuất lẻ"
+               formControlName="medicineRetailSaleProfit">
+      </div>
+      <div class="col-6 my-2">
+        Tỉ lệ chiết khấu
+        <span class="text-info"> %</span>
+        <span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineDiscount">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineDiscount').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineDiscount').dirty ||
+            medicineCreateForm.get('medicineDiscount').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <input class="form-control" type="text" placeholder="Tỉ lệ chiết khấu" formControlName="medicineDiscount">
+      </div>
+      <div class="col-6 my-2">
+        VAT
+        <span class="text-info"> %</span>
+        <span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineTax">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineTax').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineTax').dirty ||
+            medicineCreateForm.get('medicineTax').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <input class="form-control" type="text" placeholder="VAT" formControlName="medicineTax">
+      </div>
+      <div class="col-12 my-2">
+        <hr>
+      </div>
+      <div class="col-6 my-2">
+        Giá nhập
+        <span class="text-info"> Đ/Hộp</span>
+        <span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineImportPrice">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineImportPrice').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineImportPrice').dirty ||
+            medicineCreateForm.get('medicineImportPrice').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <input class="form-control" type="text" placeholder="Giá nhập" formControlName="medicineImportPrice">
+      </div>
+      <div class="col-6 my-2">
+        Độ tuổi
+        <span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineAgeApproved">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineAgeApproved').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineAgeApproved').dirty ||
+            medicineCreateForm.get('medicineAgeApproved').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <input class="form-control" type="text" placeholder="Độ tuổi" formControlName="medicineAgeApproved">
+      </div>
+      <div class="col-6 my-2">
+        Nhà sản xuất
+        <span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineManufacture">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineManufacture').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineManufacture').dirty ||
+            medicineCreateForm.get('medicineManufacture').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <input class="form-control" type="text" placeholder="Nhà sản xuất" formControlName="medicineManufacture">
+      </div>
+      <div class="col-6 my-2">
+        Xuất xứ <span class="text-danger"> (*)</span>
+        <span *ngFor="let validation of validationMessages.medicineOrigin">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineOrigin').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineOrigin').dirty ||
+            medicineCreateForm.get('medicineOrigin').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+        <select class="custom-select" formControlName="medicineOrigin">
+          <option disabled selected value="">--Chọn--</option>
+          <option *ngFor="let item of medicineOriginList" [ngValue]="item">{{item.medicineOriginName}}</option>
+        </select>
+      </div>
+      <div class="col-6 my-2">
+        <div class="col-13 my-2">
+          Công dụng
+          <span class="text-danger"> (*)</span>
+          <span *ngFor="let validation of validationMessages.medicineUsage">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineUsage').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineUsage').dirty ||
+            medicineCreateForm.get('medicineUsage').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+          <input class="form-control" type="text" placeholder="Công dụng" formControlName="medicineUsage">
+        </div>
+        <div class="col-13 my-2">
+          Cách sử dụng
+          <span class="text-danger"> (*)</span>
+          <span *ngFor="let validation of validationMessages.medicineInstruction">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineInstruction').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineInstruction').dirty ||
+            medicineCreateForm.get('medicineInstruction').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+          <input class="form-control" type="text" placeholder="Cách sử dụng" formControlName="medicineInstruction">
+        </div>
+      </div>
+      <div class="col-6 my-2 d-flex justify-content-between">
+        <div class="col-4 my-2">
+          <label for="image">Hình Ảnh <span class="text-danger">(*) </span></label>
+          <span *ngFor="let validation of validationMessages.medicineImage">
+          <span class="text-danger"
+                *ngIf="medicineCreateForm.get('medicineImage').hasError(validation.type) &&
+            ((medicineCreateForm.get('medicineImage').dirty ||
+            medicineCreateForm.get('medicineImage').touched || submit))">
+            {{validation.message}}</span>
+        </span>
+          <input name="image" id="image" type="file" class="file__input" (change)="showPreview($event)">
+          <label for="image" class="file__label">
+            <i class="fa fa-upload"></i>
+          </label>
+        </div>
+        <div class="col-8 my-2">
+          <img [src]="previewImage" height="200">
+        </div>
+      </div>
+      <div class="col-12 my-2">
+        Mô tả
+        <textarea class="form-control" placeholder="Mô tả" formControlName="medicineDescription"></textarea>
+      </div>
+      <div class="col-12 my-2">
+        <h5 class="text-danger">(*) Thông tin bắt buộc</h5>
+      </div>
+      <div class="col-12 my-2 d-flex justify-content-center">
+        <button class="btn btn-primary mx-4" type="reset" [disabled]="isLoading">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+               class="bi bi-x-octagon" viewBox="0 0 16 16">
+            <path
+              d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+            <path
+              d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
+          Làm mới
+        </button>
+        <button class="btn btn-secondary mx-4" routerLink="/medicine/list" [disabled]="isLoading">
+          <i class="fa fa-undo" aria-hidden="true"></i> Trở về
+        </button>
+        <button class="btn btn-success mx-4" [disabled]="isLoading">
+          <i class="fa-solid fa-circle-plus"></i> Thêm mới
+          <span class="spinner-border spinner-border-sm" role="status" *ngIf=" isLoading">
+            <span class="sr-only">Loading...</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

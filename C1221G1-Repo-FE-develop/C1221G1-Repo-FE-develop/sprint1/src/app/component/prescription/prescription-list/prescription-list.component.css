@@ -1,0 +1,41 @@
+#field p{
+  font-size: 16px;
+  margin-top: 6px;
+}
+body div {
+  padding: 3px;
+}
+
+fieldset legend{
+  font-size: 16px;
+  margin-left: 30px;
+}
+body{
+  margin: 5px;
+}
+
+fieldset table tr{
+  height: 50px;
+}
+
+#bt button{
+  width: 102px;
+}
+
+h3{
+  font-size: 24px;
+  text-align: center;
+}
+
+label p{
+  margin-top: 7px;
+}
+
+.prescription{
+  margin-top: 7px;
+  text-align: center;
+}
+
+span{
+  color: red;
+}

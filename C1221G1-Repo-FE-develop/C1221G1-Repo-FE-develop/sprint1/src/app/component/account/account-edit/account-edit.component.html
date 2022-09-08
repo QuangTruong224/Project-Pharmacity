@@ -1,0 +1,83 @@
+<div class="container bootstrap snippets bootdey">
+ <h2 style="text-align: center">Thay Đổi Thông Tin Tài Khoản</h2>
+  <hr>
+  <form *ngIf="updateForm" [formGroup]="updateForm" (ngSubmit)="update(id)">
+    <div class="row justify-content-md-center">
+      <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body  ">
+            <div class="row ">
+              <div class="col-sm-3">
+                <p class="mb-0">Mã nhân viên</p>
+              </div>
+              <div class="col-sm-9">
+                <input class="form-control" readonly type="text" formControlName="employeeId">
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Tên nhân viên</p>
+              </div>
+              <div class="col-sm-9">
+                <input class="form-control" readonly type="text" formControlName="employeeName">
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Tên tài khoản </p>
+              </div>
+              <div class="col-sm-9">
+                <input class="form-control" readonly type="text" formControlName="username">
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Chức vụ <span style="color: red">(*)</span></p>
+              </div>
+              <div class="col-sm-9">
+                <select [compareWith]="equals" formControlName="position" class="form-control">
+                  <option *ngFor="let p of positions" [ngValue]="p">{{p.positionName}}</option>
+                </select>
+                <small *ngIf="updateForm.controls.position.hasError('required')
+               && updateForm.controls.position.dirty" style="color: red"> Không được để trống.</small>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Mật khẩu <span style="color: red">(*)</span></p>
+              </div>
+              <div class="col-sm-9">
+                <input class="form-control" type="password" formControlName="password">
+                <small *ngIf="updateForm.controls.password.hasError('required')
+               && updateForm.controls.password.dirty" style="color: red"> Không được để trống.</small>
+
+                <small *ngIf="updateForm.controls.password.hasError('pattern')
+               && updateForm.controls.password.touched" style="color: red">
+                  Ít nhất 6 ký tự, ít nhất 1 chữ viết hoa, 1 chữ viết thường và 1 số. </small>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+              </div>
+              <div class="col-sm-9">
+                <button style="width: 90px; margin-right: 10px" class="btn-sm  btn-warning" type="submit">
+                  <i class="fa fa-pencil" aria-hidden="true"></i> Sửa
+                </button>
+
+                <button [routerLink]="['/account/list']" style="width: 90px" class="btn-sm btn-secondary">
+                  <i class="fa fa-undo" aria-hidden="true"></i> Trở về
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+

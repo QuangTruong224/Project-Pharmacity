@@ -1,0 +1,162 @@
+<h2 class="h1" style="text-align: center">Chỉnh Sửa Khách Hàng</h2> <br>
+<div class="container shadow-lg">
+
+  <form [formGroup]="updateForm" (ngSubmit)="update(customerId)">
+    <br>
+    <div class="row no-margin">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Mã khách hàng <span
+            style="color: red"> (*) </span></b>
+          <input class="form-control" formControlName="customerId" type="text" width="50%"
+                 disabled>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Tên khách hàng<span
+            style="color: red"> (*) </span></b>
+          <input class="form-control" type="text" formControlName="customerName"
+                 placeholder="Nhập tên khách hàng">
+          <p style="color: red"
+             *ngIf="updateForm.controls.customerName.hasError('required') && updateForm.controls.customerName.touched">
+            Không được bỏ trống.</p>
+          <!--          <p style="color: red"-->
+          <!--             *ngIf="updateForm.controls.customerName.hasError('minLength') && updateForm.controls.customerName.touched">-->
+          <!--            Nhập phải nhiều hơn 2 kí tự.</p>-->
+          <p style="color: red"
+             *ngIf="updateForm.controls.customerName.hasError('maxLength') && updateForm.controls.customerName.touched">
+            Không được quá 20 kí tự.</p>
+          <p style="color: red"
+             *ngIf="updateForm.controls.customerName.hasError('pattern')&& ('minlength') && updateForm.controls.customerName.touched">
+            Nhập đúng họ tên và nhiều hơn 2 kí tự (ví dụ : Nguyễn Văn A)</p>
+        </div>
+      </div>
+    </div>
+    <div class="row no-margin">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Nhóm khách hàng <span
+            style="color: red"> (*) </span></b>
+          <select class="form-control" formControlName="customerType" [compareWith]="compareWithId">
+            <option value="">Vui lòng chọn</option>
+
+            <option  *ngFor="let type of customerTypeList" [ngValue]="type"
+                     [selected]="type.customerTypeName == updateForm.controls.customerType.value.customerTypeName">{{type.customerTypeName}}</option>
+          </select>
+          <p style="color: red"
+             *ngIf="updateForm.controls.customerType.hasError('required') && updateForm.controls.customerType.touched">
+            Bắt buộc chọn.</p>
+          <span class="select-arrow"></span>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Địa chỉ</b>
+          <input class="form-control" type="text" placeholder="Nhập địa chỉ" formControlName="customerAddress">
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row no-margin">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Điện thoại <span
+            style="color: red"> (*) </span></b>
+          <input class="form-control" type="text" formControlName="customerPhone"
+                 placeholder="Nhập số điện thoại">
+          <p style="color: red"
+             *ngIf="updateForm.controls.customerPhone.hasError('required') && updateForm.controls.customerPhone.touched">
+            Không được bỏ trống.</p>
+          <p style="color: red"
+             *ngIf="updateForm.controls.customerPhone.hasError('pattern') && updateForm.controls.customerPhone.touched">
+            Số điện thoại phải đúng định dạng gồm 10 số, bắt đầu từ 0.</p>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Năm sinh<span
+            style="color: red"> (*) </span></b>
+          <input class="form-control" type="date" formControlName="customerBirthday" (change)="check()"
+                 placeholder="Nhập tuổi">
+          <p style="color: red"
+             *ngIf="updateForm.controls.customerBirthday.hasError('required') && updateForm.controls.customerBirthday.touched">
+            Không được bỏ trống.</p>
+          <p style="color: red"
+             *ngIf="updateForm.controls.customerBirthday.errors?.check && updateForm.controls.customerBirthday.touched">
+            Khách hàng phải trên 18 tuổi.</p>
+          <p style="color: red"
+             *ngIf="updateForm.controls.customerBirthday.errors?.checkAge && updateForm.controls.customerBirthday.touched">
+            Khách hàng phải dưới 100 tuổi.</p>
+        </div>
+      </div>
+    </div>
+    <div class="row no-margin">
+      <div class="col-sm-6">
+        <div class="form-group">
+          <b class="title" class="form-label">Giới tính <span
+            style="color: red"> (*) </span></b>
+          <div style="margin-top: 7px">
+            <div class="form-check form-check-inline">
+              <input formControlName="customerGender" class="form-check-input" type="radio" name="inlineRadioOptions"
+                     id="inlineRadio1" [value]="0">
+              <label class="form-check-label" for="inlineRadio1">Nam</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input formControlName="customerGender" class="form-check-input" type="radio" name="inlineRadioOptions"
+                     id="inlineRadio2" [value]="1">
+              <label class="form-check-label" for="inlineRadio2">Nữ</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input formControlName="customerGender" class="form-check-input" type="radio" name="inlineRadioOptions"
+                     id="inlineRadio3" [value]="2">
+              <label class="form-check-label" for="inlineRadio3">Khác</label>
+            </div>
+          </div>
+          <p style="color: red"
+             *ngIf="updateForm.controls.customerGender.hasError('required') && updateForm.controls.customerGender.touched">
+            Bắt buộc chọn</p>
+          <span class="select-arrow"></span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-12">
+        <b class="title" class="form-label">Ghi chú<span
+          style="color: red"> (*) </span></b>
+        <textarea formControlName="customerNote" class="form-control" id="message-text"></textarea>
+        <p style="color: red"
+           *ngIf="updateForm.controls.customerNote.hasError('required') && updateForm.controls.customerNote.touched">
+          Không được bỏ trống.</p>
+        <p style="color: red"
+           *ngIf="updateForm.controls.customerNote.hasError('minlength') && updateForm.controls.customerNote.touched">
+          Nhập phải nhiều hơn 2 kí tự.</p>
+        <p style="color: red"
+           *ngIf="updateForm.controls.customerNote.hasError('maxlength') && updateForm.controls.customerNote.touched">
+          Không được quá 50 kí tự.</p>
+      </div>
+    </div>
+    <br>
+    <div><b class="title" style="color: red">(*) Thông tin bắt buộc nhập.</b></div>
+    <div class="d-flex justify-content-between">
+      <div>
+      </div>
+      <div class="row">
+        <div class="col-lg-10"></div>
+        <div>
+          <button routerLink="/customer/list" class="btn btn-secondary mx-2"><i class="fa fa-undo"
+                                                                                aria-hidden="true"></i> Trở về
+          </button>
+        </div>
+        &nbsp;
+        <div>
+          <button class="btn btn-warning mx-2"><i class="fa fa-pencil" aria-hidden="true"></i> Sửa</button>
+        </div>
+      </div>
+    </div>
+    <br>
+  </form>
+</div>

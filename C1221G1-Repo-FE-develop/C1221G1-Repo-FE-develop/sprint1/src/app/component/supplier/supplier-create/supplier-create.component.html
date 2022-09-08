@@ -1,0 +1,108 @@
+<div class="container mg mx-auto">
+  <h2 style="text-align: center"> Thêm Mới Nhà Cung Cấp</h2>
+
+  <div class="col-9  mx-auto">
+    <form [formGroup]="supplierForm" (ngSubmit)="createSupplier()" novalidate>
+      <div class="form-group">
+        <p class="form-label">Tên nhà cung cấp<span
+          style="color: red"> (*) </span></p>
+        <input class="form-control" formControlName="supplierName"
+               type="text">
+        <div *ngIf='!supplierName.valid && (supplierName.dirty ||supplierName.touched||submitted)'>
+          <p [hidden]='!supplierName.errors.required' class="text-danger">
+            Tên nhà cung cấp bắt buộc phải có.
+          </p>
+          <p [hidden]='!supplierName.errors.pattern' class="text-danger">
+            Tên không có ký tự đặt biệt.
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <p class="form-label">Địa chỉ nhà cung cấp</p>
+        <input class="form-control" formControlName="supplierAddress"
+               type="text">
+      </div>
+
+      <div class="row no-margin">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <p class="form-label">Số diện thoại nhà cung cấp <span
+              style="color: red"> (*) </span></p>
+            <input class="form-control" formControlName="supplierPhone"
+                   type="text">
+            <div *ngIf='!supplierPhone.valid && (supplierPhone.dirty ||supplierPhone.touched||submitted)'>
+              <p [hidden]='!supplierPhone.errors.required' class="text-danger">
+                Số điện thoại không được để trống.
+              </p>
+              <p [hidden]='!supplierPhone.errors.pattern' class="text-danger">
+                Không đúng định dạng của số điện thoại <br>Vd: 090(*******).
+              </p>
+
+            </div>
+            <p class="text-danger" *ngIf=" supplierForm.get('supplierPhone').hasError('phoneAlreadyExists')">
+              Số điện thoại này đã tồn tại.
+            </p>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <p class="form-label">Email Nhà Cung Cấp<span
+              style="color: red"> (*) </span></p>
+            <input class="form-control" formControlName="supplierEmail"
+                   type="email">
+            <div *ngIf='!supplierEmail.valid && (supplierEmail.dirty ||supplierEmail.touched||submitted)'>
+              <p [hidden]='!supplierEmail.errors.required' class="text-danger">
+                Email không được để trống.
+              </p>
+              <p [hidden]='!supplierEmail.errors.pattern' class="text-danger">
+                Không đúng định dạng của email <br> Vd: hovaten@gmail.com
+              </p>
+
+            </div>
+            <p class="text-danger" *ngIf="supplierForm.get('supplierEmail').hasError('emailAlreadyExists')">
+              Email này đã có người sử dụng.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <p class="form-label">Ghi chú</p>
+          <textarea class="form-control" formControlName="note" id="message-text"></textarea>
+        </div>
+      </div>
+      <br>
+      <b style="color: red">(*) <span>Thông tin bắt buộc</span> </b>
+
+      <div class=" d-flex justify-content-right " style="float: right">
+        <div class="row">
+          <div class="m-2">
+            <button class="btn btn-secondary mgl" routerLink='/supplier/'>
+              <a style="color: white">
+                <i aria-hidden="true" class="fa fa-undo"></i> Trở về
+              </a>
+            </button>
+          </div>
+          <div class="m-2">
+            <button class="btn btn-primary mx-4" type="reset">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                   class="bi bi-x-octagon" viewBox="0 0 16 16">
+                <path
+                  d="M4.54.146A.5.5 0 0 1 4.893 0h6.214a.5.5 0 0 1 .353.146l4.394 4.394a.5.5 0 0 1 .146.353v6.214a.5.5 0 0 1-.146.353l-4.394 4.394a.5.5 0 0 1-.353.146H4.893a.5.5 0 0 1-.353-.146L.146 11.46A.5.5 0 0 1 0 11.107V4.893a.5.5 0 0 1 .146-.353L4.54.146zM5.1 1 1 5.1v5.8L5.1 15h5.8l4.1-4.1V5.1L10.9 1H5.1z"/>
+                <path
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+              </svg>
+              Làm mới
+            </button>
+          </div>
+          <div class="m-2">
+            <button class="btn btn-success" type="submit">
+              <i class="fa-solid fa-circle-plus"></i> Thêm mới
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

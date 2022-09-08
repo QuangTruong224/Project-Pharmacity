@@ -1,0 +1,217 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="row bg-img"
+      >
+        <div class="d-flex justify-content-center align-items-center vh-100 col-10 col-md-10 col-sm-10  m-auto">
+
+          <form [formGroup]="signUpForm" (ngSubmit)="submitSignUp()">
+
+            <div class="px-3 my-2 py-2 shadow-lg  bg-white rounded w-100 mx-auto">
+
+              <h3 class="text-success p-0 m-0">
+                Đăng ký thành viên
+              </h3>
+
+              <h4 class="text-secondary">Cảm ơn quý khách đã tin cậy và lựa chọn chúng tôi !</h4>
+              <hr class="m-0 p-0">
+              <div class="row mt-2">
+                <label class="text-success col-4"><span  style="font-size: 1.1rem">Họ và tên <span class="text-danger">*</span></span></label>
+                <div class="col-8">
+                  <input type="text" class="w-100 border border-success rounded inline form-control-sm"
+                         formControlName="name"
+                         placeholder="Nguyễn Văn A">
+                </div>
+              </div>
+              <div class="row p-0 m-0">
+                <p class="col-12 text-right text-danger m-0 p-0"
+                *ngIf="signUpForm.controls.name.hasError('required') && (signUpForm.controls.name.touched || signUpForm.controls.name.dirty)"
+                >Vui lòng không để trống.</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.name.hasError('pattern') && (signUpForm.controls.name.touched || signUpForm.controls.name.dirty)"
+                >Tên không thể chứa kí tự đặc biệt,số và phải từ 5-50 kí tự.</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="errorMap && (signUpForm.controls.name.touched || signUpForm.controls.name.dirty)"
+                >{{errorMap['name']}}</p>
+              </div>
+              <div class="row mt-2">
+                <label class="text-success col-4" ><span  style="font-size: 1.1rem">E-Mail <span class="text-danger">*</span></span></label>
+                <div class="col-8">
+                  <input type="text" class="w-100 border border-success rounded inline form-control-sm"
+                         formControlName="email"
+                         placeholder="pharmacy@email.com">
+                </div>
+              </div>
+              <div class="row p-0 m-0">
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.email.hasError('required')
+                   && (signUpForm.controls.email.touched || signUpForm.controls.email.dirty)"
+                >Vui lòng không để trống</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.email.hasError('email')
+                   && (signUpForm.controls.email.touched || signUpForm.controls.email.dirty)">
+                  Email phải từ 12 - 100 kí tự và đúng định dạng email.</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="errorMap && signUpForm.controls.email.touched"
+                >{{errorMap['email']}}</p>
+              </div>
+              <div class="row mt-2">
+                <label class="text-success col-4"><span  style="font-size: 1.1rem">Mật khẩu <span class="text-danger">*</span></span></label>
+                <div class="col-8">
+                  <input type="password" class="w-100 border border-success rounded inline form-control-sm"
+                         formControlName="password">
+                </div>
+              </div>
+              <div class="row p-0 m-0">
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.password.hasError('required') && (signUpForm.controls.password.touched
+                   || signUpForm.controls.password.dirty)"
+                >Vui lòng không để trống.</p>
+<!--                <p class="col-12 text-right text-danger m-0 p-0"-->
+<!--                   *ngIf="signUpForm.controls.password.hasError('minlength') && (signUpForm.controls.password.touched-->
+<!--                   || signUpForm.controls.password.dirty)"-->
+<!--                >Mật khẩu phải từ 6 kí tự.</p>-->
+<!--                <p class="col-12 text-right text-danger m-0 p-0"-->
+<!--                   *ngIf="signUpForm.controls.password.hasError('maxlength') && (signUpForm.controls.password.touched-->
+<!--                   || signUpForm.controls.password.dirty)">-->
+<!--                  Mật khẩu vượt quá 50 kí tự.-->
+<!--                </p>-->
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.password.hasError('pattern')"
+                >Mật khẩu từ 6 - 50 kí tự bao gồm số, chữ hoa, chữ thường và kí tự đặc biệt</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="errorMap && signUpForm.controls.password.touched"
+                >{{errorMap['password']}}</p>
+              </div>
+              <div class="row mt-2">
+                <label class="text-success col-4 pr-0"><span  style="font-size: 1.1rem">Xác nhận mật khẩu <span class="text-danger">*</span></span></label>
+                <div class="col-8">
+                  <input type="password" class="w-100 border border-success rounded inline form-control-sm"
+                         formControlName="confirmPassword"
+                  >
+                </div>
+              </div>
+              <div class="row p-0 m-0">
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.confirmPassword.hasError('required')
+                   && (signUpForm.controls.confirmPassword.touched || signUpForm.controls.confirmPassword.dirty)"
+                >Vui lòng không để trống.</p>
+<!--                <p class="col-12 text-right text-danger m-0 p-0"-->
+<!--                   *ngIf="signUpForm.controls.confirmPassword.hasError('minlength')-->
+<!--                   && (signUpForm.controls.confirmPassword.touched-->
+<!--                   || signUpForm.controls.confirmPassword.dirty)"-->
+<!--                >Mật khẩu xác nhận phải từ 6 kí tự.</p>-->
+<!--                <p class="col-12 text-right text-danger m-0 p-0"-->
+<!--                   *ngIf="signUpForm.controls.confirmPassword.hasError('maxlength')-->
+<!--                   && (signUpForm.controls.confirmPassword.touched-->
+<!--                   || signUpForm.controls.confirmPassword.dirty)"-->
+<!--                >Mật khẩu xác nhận vượt quá 50 kí tự.</p>-->
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.confirmPassword.hasError('pattern')
+                  "
+                >Mật khẩu từ 6 - 50 kí tự bao gồm số, chữ hoa, chữ thường và kí tự đặc biệt.</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="errorMap && signUpForm.controls.confirmPassword.touched"
+                >{{errorMap['confirmPassword']}}</p>
+              </div>
+              <div class="row mt-2">
+                <label class="text-success col-4" ><span  style="font-size: 1.1rem">Địa chỉ <span class="text-danger">*</span></span></label>
+                <div class="col-8">
+                  <input type="text" class="w-100 border border-success rounded inline form-control-sm"
+                         formControlName="address"
+                  >
+                </div>
+              </div>
+              <div class="row p-0 m-0">
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.address.hasError('required') && (signUpForm.controls.address.touched || signUpForm.controls.address.dirty)"
+                >Vui lòng không để trống.</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="errorMap && (signUpForm.controls.address.touched || signUpForm.controls.address.dirty)"
+                >{{errorMap['address']}}</p>
+              </div>
+              <div class="row mt-2">
+                <label class="text-success col-4" ><span  style="font-size: 1.1rem">Số điện thoại <span class="text-danger">*</span></span></label>
+                <div class="col-8">
+                  <input type="text" class="w-100 border border-success rounded inline form-control-sm"
+                         formControlName="phone" placeholder="0901234567">
+                </div>
+              </div>
+              <div class="row p-0 m-0">
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.phone.hasError('required') && (signUpForm.controls.phone.touched|| signUpForm.controls.phone.dirty)"
+                >Vui lòng không để trống.</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.phone.hasError('pattern')
+                   && (signUpForm.controls.phone.touched
+                   || signUpForm.controls.phone.dirty)"
+                >Số điện thoại phải bắt đầu bằng 09 08 hoặc 07 và có 10 số.</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="errorMap && signUpForm.controls.phone.touched"
+                >{{errorMap['phone']}}</p>
+              </div>
+              <div class="row mt-2">
+                <label class="text-success col-4" ><span  style="font-size: 1.1rem">Ngày sinh <span class="text-danger">*</span></span></label>
+                <div class="col-8">
+                  <input type="date" class="w-100 border border-success rounded inline form-control-sm"
+                         formControlName="dayOfBirth"
+                  >
+                </div>
+              </div>
+              <div class="row p-0 m-0">
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.dayOfBirth.hasError('required') && signUpForm.controls.dayOfBirth.touched"
+                >Vui lòng không để trống.</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.dayOfBirth.hasError('pattern') && (signUpForm.controls.dayOfBirth.touched && signUpForm.controls.dayOfBirth.dirty)"
+                >Sai định dạng ngày-tháng-năm.</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="errorMap && signUpForm.controls.dayOfBirth.touched"
+                >{{errorMap['dayOfBirth']}}</p>
+              </div>
+              <div class="row mt-2">
+                <label class="text-success col-4" ><span  style="font-size: 1.1rem">Giới tính <span class="text-danger">*</span></span></label>
+                <div class="col-8">
+                  <input type="radio" value='0' formControlName="gender" class="mx-3">Nữ
+                  <input type="radio" value='1' formControlName="gender" class="mx-3">Nam
+                </div>
+              </div>
+              <div class="row p-0 m-0">
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="signUpForm.controls.gender.hasError('required') && signUpForm.controls.gender.touched"
+                >Vui lòng không để trống.</p>
+                <p class="col-12 text-right text-danger m-0 p-0"
+                   *ngIf="errorMap && signUpForm.controls.gender.touched"
+                >{{errorMap['gender']}}</p>
+              </div>
+              <div class="row mt-2">
+                <label class="text-success col-4" ><span  style="font-size: 1.1rem">Chi tiết bệnh lý</span></label>
+                <div class="col-8">
+                  <textarea class="w-100 border border-success rounded inline form-control-sm"
+                            formControlName="note"
+                  ></textarea>
+                </div>
+              </div>
+              <hr class="m-0 p-0">
+              <p class="text-success text-center">*Vui lòng điền đầy đủ thông tin để việc đăng ký được hoàn tất nhanh chóng</p>
+<!--              <div class=" d-flex justify-content-center">-->
+<!--                <button class="btn btn-primary col-3 text-center mx-2"><i class="fa-brands fa-facebook"></i></button>-->
+<!--                <button class="btn btn-danger col-3 text-center mx-2"><i class="fa-brands fa-instagram"></i></button>-->
+<!--                <button class="btn btn-info col-3 text-center mx-2"><i class="fa-brands fa-twitter"></i></button>-->
+<!--              </div>-->
+<!--              <p class="text-center text-danger my-2">Chúng tôi khuyến khích khách hàng sử dụng tài khoản mạng xã hội để đăng ký sử dụng dịch vụ của chúng tôi</p>-->
+              <div class="row">
+                <a routerLink="/home-page" class="btn btn-secondary col-3 mx-auto">Thoát</a>
+                <button type="reset" class="btn btn-info col-3 mx-auto">Làm mới</button>
+                <button type="submit" class="btn btn-success col-3 mx-auto">Đăng Ký</button>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

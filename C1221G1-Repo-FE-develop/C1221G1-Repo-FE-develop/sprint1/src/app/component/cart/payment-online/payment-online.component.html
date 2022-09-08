@@ -1,0 +1,252 @@
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="ball-spin-clockwise" [fullScreen]="true"><p
+  style="color: white"> Vui lòng đợi ...</p></ngx-spinner>
+<div class="wrapper mb-2">
+  <div class="container-fluid mx-auto">
+    <div class="flex">
+      <div *ngIf="(cartAndDetailDto | json) == '{}'" class="row">
+        <div class="col-8 mx-auto mt-2">
+          <div class="bg-white p-3 shadow-lg rounded-lg">
+            <div class="d-flex justify-content-between border-bottom pb-8">
+              <h3>Thanh toán giỏ hàng</h3>
+            </div>
+            <br>
+            <br>
+            <div class="col-4 mx-auto m-3 text-center">
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/102/102661.png"
+                width="30%"
+                alt="empty cart">
+            </div>
+            <h5 class="text-center">Bạn chưa xác nhận giỏ hàng cần thanh toán</h5>
+            <div class="form-group row mt-4">
+              <div class="col-sm-3 mx-auto pb-1">
+                <button [routerLink]="['/cart']" style="min-height: 45px"
+                        class="btn btn-outline-success btn-block">
+                  Quay lại giỏ hàng
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="(cartAndDetailDto | json) != '{}'" class="row">
+        <div class="col-xl-8 col-lg-12 mt-2">
+          <div class="mb-2">
+            <div class="shadow-lg bg-white p-3 rounded-lg">
+              <div class="d-flex justify-content-between border-bottom pb-8">
+                <h5 class="pb-2 font-weight-bold"><span class="badge badge-pill badge-success">1</span> &ensp; Giỏ hàng
+                </h5>
+                <button [routerLink]="['/cart']"
+                        class="btn btn-outline-success mb-1">
+                  Quay lại giỏ hàng
+                </button>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-borderless table-hover">
+                  <tr *ngFor="let cartDetail of cartAndDetailDto.cartDetail" class="border-bottom">
+                    <td class="col-7">
+                      <div class="d-flex align-items-center">
+                        <div style="width: 40px; height: 50px">
+                          <img class="h-100"
+                               [src]=cartDetail.medicine.medicineImage
+                               alt="">
+                        </div>
+                        <div class="pl-4">
+                          {{cartDetail.medicine.medicineName}}
+                        </div>
+                      </div>
+                    </td>
+                    <td class="col-2 align-middle">
+                      {{cartDetail.medicine.medicinePrice|number}} VND
+                    </td>
+                    <td class="col-1 align-middle">
+                      {{cartDetail.quantity}}
+                    </td>
+                    <td class="col-2 align-middle font-weight-bold">
+                      {{cartDetail.medicine.medicinePrice * cartDetail.quantity|number}} VND
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="mb-2">
+            <div class="shadow-lg bg-white p-3 rounded-lg">
+              <div class="d-flex pb-8">
+                <h5 class="pb-2 font-weight-bold">
+                  <span class="badge badge-pill badge-success"> 2 </span>
+                  &ensp; Thông tin giao hàng </h5>
+                <span class="text-danger pl-3"> (Vui lòng điền đầy đủ thông tin để thực hiện thanh toán)</span>
+              </div>
+              <div>
+                <form [formGroup]="customerForm" (ngSubmit)="onSubmit()" class="pl-3">
+                  <div class="form-group">
+                    <label for="name">Tên Người nhận <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="name"
+                           formControlName='customerName'
+                           [class.is-invalid]='(customerName.touched || customerName.dirty||submitted) && customerName.invalid'
+                           [class.is-valid]='customerName.valid'>
+                    <div *ngIf='!customerName.valid && (customerName.dirty ||customerName.touched||submitted)'>
+                      <small [hidden]='!customerName.errors.required' class="text-danger">
+                        Vui lòng nhập tên.
+                      </small>
+                      <small [hidden]='!customerName.errors.pattern' class="text-danger">
+                        Tên vượt quá số ký tự cho phép.
+                      </small>
+
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="inputEmail4">Email <span class="text-danger">*</span></label>
+                      <input type="email" class="form-control" id="inputEmail4"
+                             formControlName='customerUserName'
+                             [class.is-invalid]='(customerUserName.touched || customerUserName.dirty||submitted) && customerUserName.invalid'
+                             [class.is-valid]='customerUserName.valid'>
+                      <div
+                        *ngIf='!customerUserName.valid && (customerUserName.dirty ||customerUserName.touched||submitted)'>
+                        <small [hidden]='!customerUserName.errors.required' class="text-danger">
+                          Vui lòng nhập địa chỉ email.
+                        </small>
+                        <small [hidden]='!customerUserName.errors.pattern' class="text-danger">
+                          Địa chỉ email không đúng định dạng.
+                        </small>
+                      </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="phone">Số điện thoại <span class="text-danger">*</span></label>
+                      <input type="text" class="form-control" id="phone"
+                             formControlName='customerPhone'
+                             [class.is-invalid]="(customerPhone.touched||submitted || customerPhone.dirty) && customerPhone.invalid"
+                             [class.is-valid]="customerPhone.valid">
+                      <div *ngIf="!customerPhone.valid && (customerPhone.dirty ||customerPhone.touched||submitted)">
+                        <small class="text-danger" [hidden]="!customerPhone.errors.required">
+                          Vui lòng nhập số điện thoại.
+                        </small>
+                        <small class="text-danger" [hidden]="!customerPhone.errors.pattern">
+                          Số điện thoại bắt đầu bằng 09 hoặc 08 hoặc 03 ...
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputAddress">Địa chỉ <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="inputAddress"
+                           formControlName='customerAddress'
+                           [class.is-invalid]="(customerAddress.touched||submitted || customerAddress.dirty) && customerAddress.invalid"
+                           [class.is-valid]="customerAddress.valid">
+                    <div *ngIf="!customerAddress.valid && (customerAddress.dirty ||customerAddress.touched||submitted)">
+                      <small class="text-danger" [hidden]="!customerAddress.errors.required">
+                        Vui lòng nhập địa chỉ.
+                      </small>
+                      <small class="text-danger" [hidden]="!customerAddress.errors.minlength">
+                        Vui lòng nhập địa chỉ đầy đủ.
+                      </small>
+                      <small class="text-danger" [hidden]="!customerAddress.errors.maxlength">
+                        Địa chỉ vượt quá số ký tự cho phép.
+                      </small>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-4 col-lg-12 mt-2">
+          <div class="mb-2">
+            <div class="shadow-lg bg-white p-3 rounded-lg">
+              <div class="d-flex justify-content-between pb-8">
+                <h5 class="font-weight-bold"><i class="fa-solid fa-tag"></i> Mã ưu đãi</h5>
+              </div>
+              <div class="table-responsive">
+                <form [formGroup]="discountForm" (ngSubmit)="onSubmitDiscount()">
+                  <table class="table table-borderless ">
+                    <tr>
+                      <td colspan="2">
+                        <input formControlName='discountId' class="form-control" type="text" placeholder="Mã ưu đãi">
+                        <div *ngIf="!discountId.valid">
+                          <small class="text-danger" [hidden]="!discountId.errors.pattern">
+                            Mã ưu đãi là chuỗi ký tự gồm chữ và số.
+                          </small>
+                          <small class="text-danger" [hidden]="!discountId.errors.maxlength">
+                            Mã ưu đãi tối đa 10 ký tự.
+                          </small>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr class="border-bottom">
+                      <td colspan="2">
+                        <button class="btn btn-success btn-block" type="submit"> Áp dụng</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">Ghi chú đơn hàng</td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <textarea class="form-control" rows="2"></textarea>
+                      </td>
+                    </tr>
+                  </table>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="mb-2">
+            <div class="shadow-lg bg-white p-3 rounded-lg">
+              <div class="d-flex justify-content-between border-bottom pb-8">
+                <h5 class="font-weight-bold">Tổng tiền</h5>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-borderless ">
+                  <tr>
+                    <td class="col-5">Tạm tính</td>
+                    <td class="col-7 text-right">{{total|number}} VND</td>
+                  </tr>
+                  <tr *ngIf="discount > 0" class="text-success">
+                    <td class="col-5">Giảm giá ({{discount|percent}})</td>
+                    <td class="col-7 text-right">{{total - totalAfterDiscount|number}} VND</td>
+                  </tr>
+                  <tr class="border-bottom font-weight-bold">
+                    <td class="col-5">Tổng tiền</td>
+                    <td class="col-7 text-right ">{{totalAfterDiscount|number}} VND</td>
+                  </tr>
+                  <tr class="text-center">
+                    <td colspan="2">
+                      <ngx-paypal [hidden]="customerForm.invalid" [config]="payPalConfig"></ngx-paypal>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="backdrop" [ngStyle]="{'display':display}">
+  <div [ngStyle]="{'display':display}" class="modal" id="exampleModal" tabindex="-1" role="dialog"
+       aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Thanh toán</h5>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="isSuccess">
+            <p> Cảm ơn bạn mua sắm tại Pharmacode.</p>
+            <p> Đơn hàng của bạn đã được thanh toán thành công.</p>
+          </div>
+          <p *ngIf="isError">Liên kết Paypal hiện tại đang gặp lỗi, vui lòng thử lại sau!</p>
+        </div>
+        <div class="modal-footer">
+          <button *ngIf="isError" type="button" class="btn btn-secondary" (click)="closeModal()">Đóng</button>
+          <button *ngIf="isSuccess" type="button" class="btn btn-success" (click)="returnHome()">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

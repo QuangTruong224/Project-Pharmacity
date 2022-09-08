@@ -1,0 +1,91 @@
+<div class="container mg mx-auto">
+  <h3 style="text-align: center"> Chỉnh Sửa Nhà Cung Cấp</h3>
+  <div class="col-9 mx-auto">
+    <form *ngIf="supplierForm" [formGroup]="supplierForm" (ngSubmit)="updateSupplier()" novalidate>
+      <div class="form-group">
+        <p class="form-label">Tên nhà cung cấp<span
+          style="color: red"> (*) </span></p>
+        <input class="form-control" formControlName="supplierName" placeholder="Nhập Tên :"
+               type="text">
+        <div *ngIf='!supplierName.valid && (supplierName.dirty ||supplierName.touched||submitted)'>
+          <p [hidden]='!supplierName.errors.required' class="text-danger">
+            Tên nhà cung cấp bắt buộc phải có.
+          </p>
+          <p *ngIf="!supplierName.errors.minlength"
+             [hidden]='!supplierName.errors.pattern' class="text-danger">
+            Tên nhà cung cấp không chứa kí tự đặt biệt.
+          </p>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <p class="form-label">Địa chỉ nhà cung cấp </p>
+        <input class="form-control" formControlName="supplierAddress" placeholder="Địa Chỉ : "
+               type="text">
+      </div>
+
+      <div class="row no-margin">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <p class="form-label">Số điện thoại nhà cung cấp <span
+              style="color: red"> (*) </span></p>
+            <input class="form-control" formControlName="supplierPhone" placeholder="Số Điện Thoại :"
+                   type="text">
+            <div *ngIf='!supplierPhone.valid && (supplierPhone.dirty ||supplierPhone.touched||submitted)'>
+              <p [hidden]='!supplierPhone.errors.required' class="text-danger">
+                Số điện thoại không được để trống.
+              </p>
+              <p [hidden]='!supplierPhone.errors.pattern' class="text-danger">
+                Không đúng định dạng của số điện thoại
+                <br>
+                Vd: 090(*******).
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <p class="form-label">Email nhà cung cấp <span
+              style="color: red"> (*) </span></p>
+            <input class="form-control" formControlName="supplierEmail" placeholder="Nhập Email : "
+                   type="email">
+            <div *ngIf='!supplierEmail.valid && (supplierEmail.dirty ||supplierEmail.touched||submitted)'>
+              <p [hidden]='!supplierEmail.errors.required' class="text-danger">
+                Email không được để trống.
+              </p>
+              <p [hidden]='!supplierEmail.errors.pattern' class="text-danger">
+                Không đúng định dạng của email
+                <br>
+                Vd: hovaten@gmail.com
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <p class="form-label">Ghi chú</p>
+          <textarea class="form-control" formControlName="note" id="message-text"></textarea>
+        </div>
+      </div>
+      <br>
+      <b style="color: red">(*) <span>Thông tin bắt buộc</span> </b>
+
+      <div class=" d-flex justify-content-right " style="float: right">
+        <div class="row">
+          <div class="m-2">
+            <button class="btn btn-secondary mgl">
+              <a [routerLink]="['/supplier/']" style="color: white">
+                <i aria-hidden="true" class="fa fa-undo"></i> Trở về</a>
+            </button>
+          </div>
+          <div class="m-2">
+            <button class="btn btn-success" type="submit" style="color: white">
+              <i class="fa-solid fa-circle-plus"></i> Chỉnh sửa
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

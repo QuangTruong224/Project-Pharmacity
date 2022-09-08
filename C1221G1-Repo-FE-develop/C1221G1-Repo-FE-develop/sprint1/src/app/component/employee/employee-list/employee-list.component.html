@@ -1,0 +1,156 @@
+<h2 class="text-center">Danh Sách Nhân Viên</h2>
+<div class="container">
+  <fieldset class="border p-2">
+    <legend class="w-auto">Bộ Lọc</legend>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="form-inline my-2 my-lg-0">
+          <span>Lọc theo</span>
+          <select name="find" class="form-control mr-sm-2" id="findEmployee"
+                  (change)="changeValueFind($event.target.value)" #criteria>
+            <option value="code">Mã nhân viên</option>
+            <option value="name">Tên nhân viên</option>
+            <option value="position">Chức vụ</option>
+            <option value="address">Địa chỉ</option>
+            <option value="phone">Điện thoại</option>
+          </select>
+
+          <input class="form-control mr-sm-2" type="search" placeholder="Nhập giá trị lọc" aria-label="Search"
+                 [hidden]="!isInputHidden" #valueSearchInput [(ngModel)]="str">
+
+          <select name="valueDropDownSearch" class="form-control mr-sm-2" [hidden]="!isSelectHidden"
+                  #valueSearchDropDown [(ngModel)]="drowDownValue">
+            <option value="">--Chọn chức vụ--</option>
+            <option *ngFor="let item of positions" [value]="item.positionId">{{item.positionName}}</option>
+          </select>
+          <button class="btn btn-primary my-2 my-sm-0" type="submit" (click)="search()"><i class="fa fa-search"
+                                                                                           aria-hidden="true"></i> Lọc kết quả
+          </button>
+        </div>
+        <div class="form-inline my-2 my-lg-0">
+          <span>Sắp xếp theo</span>
+          <select name="sort" class="form-control mr-sm-2" id="sortEmployee" (change)="sortBy($event.target.value)" #valueSort>
+            <option value="employee_id">Mã nhân viên</option>
+            <option value="employee_name">Tên nhân viên</option>
+            <option value="employee_date_start">Ngày vào làm</option>
+            <option value="employee_address">Địa chỉ</option>
+            <option value="employee_phone">Điện thoại</option>
+          </select>
+        </div>
+      </div>
+    </nav>
+  </fieldset>
+  <br>
+  <div>
+      <button type="button" class="btn btn-secondary mx-2" [routerLink]="['/sales-management/invoices']"><i class="fa fa-undo" aria-hidden="true"></i> Trở về</button>
+      <button type="button" class="btn btn-success" [routerLink]="['/employee/create']"><i class="fa-solid fa-circle-plus"></i> Thêm</button>
+  </div>
+  <br>
+  <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4">
+    <div class="col" *ngFor="let item of employees">
+      <div class="card radius-15">
+        <div class="card-body text-center">
+          <div class="p-4 border radius-15">
+            <img
+              [src]="item.employeeImage"
+              width="110"
+              height="110"
+              class="rounded-circle shadow"
+              alt=""
+            />
+            <div class="col-12 p-0">
+              <h6 class="mb-0 mt-5 row d-flex justify-content-center">{{item.employeeName}}</h6>
+            </div>
+            <hr>
+            <table>
+              <tr>
+                <td><i class="fa-solid fa-user"></i></td>
+                <td><span>:</span></td>
+                <td>{{item.employeeId}}</td>
+              </tr>
+              <tr>
+                <td><i class="fa-solid fa-calendar-days"></i></td>
+                <td><span>:</span></td>
+                <td>{{item.employeeDateStart|date:'dd/MM/yyyy'}}</td>
+              </tr>
+              <tr>
+                <td><i class="fa-solid fa-phone"></i></td>
+                <td><span>:</span></td>
+                <td>{{item.employeePhone}}</td>
+              </tr>
+              <tr>
+                <td><i class="fa-solid fa-location-dot"></i></td>
+                <td><span>:</span></td>
+                <td>{{item.employeeAddress}}</td>
+              </tr>
+              <tr>
+                <td><i class="fa-solid fa-user-tie"></i></td>
+                <td><span>:</span></td>
+                <td>{{item.position.positionName}}</td>
+              </tr>
+            </table>
+            <hr>
+            <div class="d-grid d-flex justify-content-between">
+              <button class="btn btn-warning" [routerLink]="['/employee/edit',item.employeeId]">
+                <i class="fa fa-pencil" aria-hidden="true"></i> Sửa
+              </button>
+
+              <button class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop" (click)="getInforEmployeeDelete(item.employeeName,item.employeeId)">
+                <i class="fa-solid fa-circle-xmark"></i> Xoá
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center" *ngIf="isHasContent">
+    <img src="https://img.freepik.com/free-vector/sad-emoji_53876-25516.jpg" width="240" alt="">
+    <h4>Không có dữ liệu phù hợp</h4>
+  </div>
+  <nav aria-label="Page navigation example" *ngIf="!isHasContent">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" >
+        <a class="page-link btn" (click)="previousPage()" [class.disabled]="currentPage<=0">Quay lại</a>
+      </li>
+      <li class="page-item"><a class="page-link">{{currentPage+1}}/{{totalPages}}</a></li>
+      <li class="page-item">
+        <a class="page-link btn" (click)="nextPage()" [class.disabled]="currentPage+1>=totalPages">Tiếp theo</a>
+      </li>
+    </ul>
+  </nav>
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+       aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Xác nhận xoá</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Bạn có chắc chắn muốn xoá nhân viên:
+          <h5 style="color: red;">{{employeeNameValue}}</h5>
+          Với mã nhân viên là:
+          <h5 style="color: red;">{{employeeIdValue}}</h5>
+          <br>
+          <h4>Lưu ý: Hành động này không thể hoàn tác</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-undo"
+                                                                                  aria-hidden="true"></i> Trở về
+          </button>
+          <button class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop" (click)="deleteEmployeeByid(employeeIdValue)">
+            <i class="fa-solid fa-circle-xmark"></i> Xoá
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

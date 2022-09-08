@@ -1,0 +1,164 @@
+<body>
+<div class="mb-3 pt-1">
+  <div class="container shadow pt-3">
+    <div class="d-flex justify-content-center"><h2>Danh Sách Hóa Đơn</h2></div>
+    <hr class="my-3">
+    <!--Search form start-->
+    <div class="mx-auto mb-1 rounded-lg ml-4">
+      <form [formGroup]="searchForm" (ngSubmit)="search()">
+        <div class="row pb-4">
+          <div class="col-9 d-flex justify-content-around">
+            <div class="col-5">
+              <div formGroupName="dateForm">
+                <div style="margin-bottom: 15px">
+                  <label for="startDate">Từ ngày</label>
+                  <input class="form-control form-control-sm" id="startDate" type="datetime-local"
+                         formControlName="startDate">
+                  <p *ngIf="searchForm.controls.dateForm.hasError('startDateError') && startDate !== ''"
+                     class="text-danger mt-2">
+                    Ngày bắt đầu phải bé hơn ngày hiện tại.
+                  </p>
+                </div>
+                <div>
+                  <label for="endDate">Đến ngày</label>
+                  <input class="form-control form-control-sm" id="endDate" type="datetime-local"
+                         formControlName="endDate">
+                  <p *ngIf="searchForm.controls.dateForm.hasError('dateError') && startDate !== '' && endDate !== ''"
+                     class="text-danger mt-2">
+                    Ngày kết thúc phải lớn hơn ngày bắt đầu.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-5">
+              <div style="margin-bottom: 15px">
+                <label for="typeOfInvoiceId">Khách hàng</label>
+                <select class="form-control form-control-sm" id="typeOfInvoiceId" formControlName="typeOfInvoiceId">
+                  <option value="1">Bán lẻ</option>
+                  <option value="2">Bán sỉ</option>
+                  <option value="3">Hoàn trả</option>
+                </select>
+              </div>
+              <div>
+                <label for="fieldSort">Sắp xếp theo</label>
+                <select class="form-control form-control-sm" id="fieldSort" formControlName="fieldSort">
+                  <option value="invoiceId">Mã hóa đơn</option>
+                  <option value="customerName">Tên khách hàng</option>
+                  <option value="time">Ngày giờ lập</option>
+                  <option value="employeeName">Người lập</option>
+                  <option value="invoiceTotalMoney">Tổng tiền</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-3 flex-wrap pt-3">
+            <div>
+              <button class="btn btn-primary mt-2 ml-1"><i class="fa-solid fa-filter"></i> Lọc hóa đơn</button>
+            </div>
+            <div>
+              <button (click)="reset()" type="reset" class="btn btn-primary mt-4 ml-3"><i class="fa fa-undo"></i>
+                Làm mới
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!--Search form end-->
+  </div>
+  <!--List start-->
+  <div class="container px-0">
+    <fieldset class="border px-2 pt-2 pb-4 shadow">
+      <legend class="w-auto">Danh sách hóa đơn</legend>
+      <table class="table table-hover">
+        <thead class="table-success">
+        <tr>
+          <th>Mã HĐ</th>
+          <th>Tên khách hàng</th>
+          <th>Ngày lập</th>
+          <th>Giờ lập</th>
+          <th>Người lập</th>
+          <th>Tổng tiền</th>
+          <th>Ghi chú</th>
+        </tr>
+        </thead>
+        <tbody *ngIf="invoiceList != null">
+        <tr (click)="chooseInvoice(i, invoice.invoiceId, invoice.customerName)" *ngFor="let invoice of invoiceList, index as i"
+            [ngStyle]="{'background-color': chosenIndex === i && isChosen && chosenId === invoice.invoiceId ? '#84c0ec' : ''}">
+          <td>{{invoice.invoiceId}}</td>
+          <td>{{invoice.customerName}}</td>
+          <td>{{invoice.invoiceCreatedDate | date :'dd/MM/yyyy'}}</td>
+          <td>{{invoice.invoiceCreateTime}}</td>
+          <td>{{invoice.employeeName}}</td>
+          <td>{{invoice.invoiceTotalMoney | number }} VNĐ</td>
+          <td>{{invoice.invoiceNote}}</td>
+        </tr>
+        </tbody>
+        <tbody *ngIf="invoiceList.length == 0">
+        <tr>
+          <td align="center" colspan="7"><h4 style="color: red">Không tìm thấy hóa đơn nào</h4></td>
+        </tr>
+        </tbody>
+      </table>
+      <div *ngIf="invoiceList.length !== 0">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+            <li class="page-item">
+              <a class="page-link btn btn-sm" (click)="previousPage()" [class.disabled]="currentPage<=0">Trang trước</a>
+            </li>
+            <li class="page-item ">
+              <a class="page-link btn-sm">
+                <span>{{currentPage + 1}}</span>
+                <span>/</span>
+                <span>{{totalPages}}</span>
+              </a>
+            </li>
+            <li class="page-item">
+              <a class="page-link btn btn-sm" (click)="nextPage()"
+                 [class.disabled]="currentPage+1>=totalPages">Trang sau</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <!--Button start-->
+      <div id="bottom-btn" class="d-flex justify-content-end">
+        <button [routerLink]="['/sales-management/retail']" class="btn btn-success"><i
+          class="fa-solid fa-circle-plus"></i> Thêm hóa đơn
+        </button>
+        <button [disabled]="!isChosen" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+          <i class="fa-solid fa-circle-xmark"></i> Xoá hóa đơn
+        </button>
+        <button [routerLink]="['/home-page']" class="btn btn-secondary"><i class="fa fa-undo" aria-hidden="true"></i>
+          Trở về
+        </button>
+      </div>
+      <!--Button end-->
+    </fieldset>
+  </div>
+  <!--List end-->
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc muốn xóa hóa đơn này không?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Mã hóa đơn: <b>{{idDel}}</b>
+          <br>
+          <br>
+          Tên khách hàng: <b>{{nameDel}}</b>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+          <button (click)="deleteInvoice(idDel)" type="button" class="btn btn-danger" data-dismiss="modal">Xóa</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
